@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 12.875, 8.5" name="AlumniManagement">
+  <DataContextMoniker Name="/AlumniManagementDataContext" />
+  <nestedChildShapes>
+    <classShape Id="eecd9ab1-0205-4f82-b478-8e462bc7122e" absoluteBounds="6.25, 1, 2, 3.5016097005208326">
+      <DataClassMoniker Name="/AlumniManagementDataContext/Alumni" />
+      <nestedChildShapes>
+        <elementListCompartment Id="2bde4a32-0c7c-49c9-b5cb-d513cb113e16" absoluteBounds="6.265, 1.46, 1.9700000000000002, 2.941609700520833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="bf8e8d4f-685e-4261-a13d-58d6d18ece52" absoluteBounds="3.5, 5.875, 2, 1.7708968098958326">
+      <DataClassMoniker Name="/AlumniManagementDataContext/Major" />
+      <nestedChildShapes>
+        <elementListCompartment Id="43d857d7-1599-4628-a3c5-6a040d9666f8" absoluteBounds="3.515, 6.335, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="0bdb1613-5284-42e3-9ef3-baed11a3bce8" absoluteBounds="0.75, 6, 2, 1.5785953776041666">
+      <DataClassMoniker Name="/AlumniManagementDataContext/Faculty" />
+      <nestedChildShapes>
+        <elementListCompartment Id="f91bdeba-4ab7-426a-b05a-a516d465c3aa" absoluteBounds="0.765, 6.46, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="09d37645-d5ca-4b83-8c02-2fad20f50d37" absoluteBounds="9, 1.625, 2, 2.3478011067708335">
+      <DataClassMoniker Name="/AlumniManagementDataContext/JobHistory" />
+      <nestedChildShapes>
+        <elementListCompartment Id="90832a63-1dd9-438e-a711-4311d3cc9ddc" absoluteBounds="9.015, 2.085, 1.9700000000000002, 1.7878011067708335" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="e44f7af8-b549-4c16-b056-98f0966792e7" absoluteBounds="3.5, 2, 2, 1.3862939453125005">
+      <DataClassMoniker Name="/AlumniManagementDataContext/District" />
+      <nestedChildShapes>
+        <elementListCompartment Id="cabe88b0-4d42-4602-9114-5f901d3d6e0c" absoluteBounds="3.515, 2.46, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="76b80792-24da-43fe-9154-0e13d1e2bc2d" absoluteBounds="0.75, 2.125, 2, 1.1939925130208335">
+      <DataClassMoniker Name="/AlumniManagementDataContext/State" />
+      <nestedChildShapes>
+        <elementListCompartment Id="1301c43c-7948-4f81-b7b3-ca8a7d9f0302" absoluteBounds="0.765, 2.585, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(5.5 : 6.76044840494792); (7.25 : 6.76044840494792); (7.25 : 4.50160970052083)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/AlumniManagementDataContext/Major/Major_Alumni" />
+      <nodes>
+        <classShapeMoniker Id="bf8e8d4f-685e-4261-a13d-58d6d18ece52" />
+        <classShapeMoniker Id="eecd9ab1-0205-4f82-b478-8e462bc7122e" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.75 : 6.78929768880208); (3.5 : 6.78929768880208)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/AlumniManagementDataContext/Faculty/Faculty_Major" />
+      <nodes>
+        <classShapeMoniker Id="0bdb1613-5284-42e3-9ef3-baed11a3bce8" />
+        <classShapeMoniker Id="bf8e8d4f-685e-4261-a13d-58d6d18ece52" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(8.25 : 2.79890055338542); (9 : 2.79890055338542)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/AlumniManagementDataContext/Alumni/Alumni_JobHistory" />
+      <nodes>
+        <classShapeMoniker Id="eecd9ab1-0205-4f82-b478-8e462bc7122e" />
+        <classShapeMoniker Id="09d37645-d5ca-4b83-8c02-2fad20f50d37" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(5.5 : 2.69314697265625); (6.25 : 2.69314697265625)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/AlumniManagementDataContext/District/District_Alumni" />
+      <nodes>
+        <classShapeMoniker Id="e44f7af8-b549-4c16-b056-98f0966792e7" />
+        <classShapeMoniker Id="eecd9ab1-0205-4f82-b478-8e462bc7122e" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.75 : 2.72199625651042); (3.5 : 2.72199625651042)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/AlumniManagementDataContext/State/State_District" />
+      <nodes>
+        <classShapeMoniker Id="76b80792-24da-43fe-9154-0e13d1e2bc2d" />
+        <classShapeMoniker Id="e44f7af8-b549-4c16-b056-98f0966792e7" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="240214bf-6fe9-4703-9193-c43ca82f7300" absoluteBounds="10.625, 6.125, 2, 1.5785953776041666">
+      <DataClassMoniker Name="/AlumniManagementDataContext/AlumniImage" />
+      <nestedChildShapes>
+        <elementListCompartment Id="2caa4a2b-d00a-4f66-a658-a492846d64ad" absoluteBounds="10.64, 6.5850000000000009, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(7.7812525 : 4.50160970052083); (7.7812525 : 7.23202189127604); (10.625 : 7.23202189127604)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/AlumniManagementDataContext/Alumni/Alumni_AlumniImage" />
+      <nodes>
+        <classShapeMoniker Id="eecd9ab1-0205-4f82-b478-8e462bc7122e" />
+        <classShapeMoniker Id="240214bf-6fe9-4703-9193-c43ca82f7300" />
+      </nodes>
+    </associationConnector>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="KDP22" Class="AlumniManagementDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Table Name="dbo.Alumni" Member="Alumnis">
+    <Type Name="Alumni">
+      <Column Name="AlumniID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="FirstName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="MiddleName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="LastName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Email" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="MobileNumber" Type="System.String" DbType="NVarChar(15)" CanBeNull="true" />
+      <Column Name="Address" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="DistrictID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DateOfBirth" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="GraduationYear" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Degree" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="MajorID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="LinkedInProfile" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="ModifiedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="Alumni_JobHistory" Member="JobHistories" ThisKey="AlumniID" OtherKey="AlumniID" Type="JobHistory" />
+      <Association Name="Alumni_AlumniImage" Member="AlumniImages" ThisKey="AlumniID" OtherKey="AlumniID" Type="AlumniImage" />
+      <Association Name="Major_Alumni" Member="Major" ThisKey="MajorID" OtherKey="MajorID" Type="Major" IsForeignKey="true" />
+      <Association Name="District_Alumni" Member="District" ThisKey="DistrictID" OtherKey="DistrictID" Type="District" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Major" Member="Majors">
+    <Type Name="Major">
+      <Column Name="MajorID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="MajorName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="FacultyID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="ModifiedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="Major_Alumni" Member="Alumnis" ThisKey="MajorID" OtherKey="MajorID" Type="Alumni" />
+      <Association Name="Faculty_Major" Member="Faculty" ThisKey="FacultyID" OtherKey="FacultyID" Type="Faculty" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Faculty" Member="Faculties">
+    <Type Name="Faculty">
+      <Column Name="FacultyID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="FacultyName" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="ModifiedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="Faculty_Major" Member="Majors" ThisKey="FacultyID" OtherKey="FacultyID" Type="Major" />
+    </Type>
+  </Table>
+  <Table Name="dbo.JobHistory" Member="JobHistories">
+    <Type Name="JobHistory">
+      <Column Name="JobHistoryID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="AlumniID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="JobTitle" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="Company" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="StartDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="EndDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="ModifiedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="Alumni_JobHistory" Member="Alumni" ThisKey="AlumniID" OtherKey="AlumniID" Type="Alumni" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Districts" Member="Districts">
+    <Type Name="District">
+      <Column Name="DistrictID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="DistrictName" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="StateID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="District_Alumni" Member="Alumnis" ThisKey="DistrictID" OtherKey="DistrictID" Type="Alumni" />
+      <Association Name="State_District" Member="State" ThisKey="StateID" OtherKey="StateID" Type="State" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.States" Member="States">
+    <Type Name="State">
+      <Column Name="StateID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="StateName" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Association Name="State_District" Member="Districts" ThisKey="StateID" OtherKey="StateID" Type="District" />
+    </Type>
+  </Table>
+  <Table Name="dbo.AlumniImages" Member="AlumniImages">
+    <Type Name="AlumniImage">
+      <Column Name="ImageID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="AlumniID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ImagePath" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="UploadDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="Alumni_AlumniImage" Member="Alumni" ThisKey="AlumniID" OtherKey="AlumniID" Type="Alumni" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+</Database>
