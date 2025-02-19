@@ -87,6 +87,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Services\AlumniImageService.svc" />
     <Content Include="Services\AlumniService.svc" />
     <Content Include="Services\FacultyService.svc" />
     <Content Include="Services\JobHistorySerice.svc" />
@@ -109,12 +110,16 @@
     <Compile Include="Entities\ModelMapping.cs" />
     <Compile Include="Entities\StateDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AlumniImageService.svc.cs">
+      <DependentUpon>AlumniImageService.svc</DependentUpon>
+    </Compile>
     <Compile Include="Services\AlumniService.svc.cs">
       <DependentUpon>AlumniService.svc</DependentUpon>
     </Compile>
     <Compile Include="Services\FacultyService.svc.cs">
       <DependentUpon>FacultyService.svc</DependentUpon>
     </Compile>
+    <Compile Include="Services\IAlumniImageService.cs" />
     <Compile Include="Services\IAlumniService.cs" />
     <Compile Include="Services\IFacultyService.cs" />
     <Compile Include="Services\IJobHistorySerice.cs" />
