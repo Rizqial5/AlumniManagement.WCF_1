@@ -76,6 +76,7 @@
       <Column Name="AlumniID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ImagePath" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
       <Column Name="UploadDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="FileName" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
       <Association Name="Alumni_AlumniImage" Member="Alumni" ThisKey="AlumniID" OtherKey="AlumniID" Type="Alumni" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
     </Type>
   </Table>

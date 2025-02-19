@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 12.875, 8.5" name="AlumniManagement">
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11.375, 8.5" name="AlumniManagement">
   <DataContextMoniker Name="/AlumniManagementDataContext" />
   <nestedChildShapes>
     <classShape Id="eecd9ab1-0205-4f82-b478-8e462bc7122e" absoluteBounds="6.25, 1, 2, 3.5016097005208326">
@@ -38,7 +38,7 @@
         <elementListCompartment Id="1301c43c-7948-4f81-b7b3-ca8a7d9f0302" absoluteBounds="0.765, 2.585, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(5.5 : 6.76044840494792); (7.25 : 6.76044840494792); (7.25 : 4.50160970052083)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(5.5 : 6.55351094563802); (6.9414044375 : 6.55351094563802); (6.9414044375 : 4.50160970052083)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/AlumniManagementDataContext/Major/Major_Alumni" />
       <nodes>
         <classShapeMoniker Id="bf8e8d4f-685e-4261-a13d-58d6d18ece52" />
@@ -73,17 +73,17 @@
         <classShapeMoniker Id="e44f7af8-b549-4c16-b056-98f0966792e7" />
       </nodes>
     </associationConnector>
-    <classShape Id="240214bf-6fe9-4703-9193-c43ca82f7300" absoluteBounds="10.625, 6.125, 2, 1.5785953776041666">
+    <classShape Id="b2ac9ecd-6108-49c3-9ee2-f28a1a221726" absoluteBounds="9.125, 6, 2, 1.7708968098958331">
       <DataClassMoniker Name="/AlumniManagementDataContext/AlumniImage" />
       <nestedChildShapes>
-        <elementListCompartment Id="2caa4a2b-d00a-4f66-a658-a492846d64ad" absoluteBounds="10.64, 6.5850000000000009, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="a2d5601a-469e-4abf-a4fb-a60244fe48e6" absoluteBounds="9.14, 6.46, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(7.7812525 : 4.50160970052083); (7.7812525 : 7.23202189127604); (10.625 : 7.23202189127604)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(7.62695471875 : 4.50160970052083); (7.62695471875 : 7.16220387776693); (9.125 : 7.16220387776693)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/AlumniManagementDataContext/Alumni/Alumni_AlumniImage" />
       <nodes>
         <classShapeMoniker Id="eecd9ab1-0205-4f82-b478-8e462bc7122e" />
-        <classShapeMoniker Id="240214bf-6fe9-4703-9193-c43ca82f7300" />
+        <classShapeMoniker Id="b2ac9ecd-6108-49c3-9ee2-f28a1a221726" />
       </nodes>
     </associationConnector>
   </nestedChildShapes>

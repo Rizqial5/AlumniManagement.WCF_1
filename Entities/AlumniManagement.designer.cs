@@ -1613,6 +1613,8 @@ namespace AlumniManagement.WCF.Entities
 		
 		private System.DateTime _UploadDate;
 		
+		private string _FileName;
+		
 		private EntityRef<Alumni> _Alumni;
 		
     #region Extensibility Method Definitions
@@ -1627,6 +1629,8 @@ namespace AlumniManagement.WCF.Entities
     partial void OnImagePathChanged();
     partial void OnUploadDateChanging(System.DateTime value);
     partial void OnUploadDateChanged();
+    partial void OnFileNameChanging(string value);
+    partial void OnFileNameChanged();
     #endregion
 		
 		public AlumniImage()
@@ -1715,6 +1719,26 @@ namespace AlumniManagement.WCF.Entities
 					this._UploadDate = value;
 					this.SendPropertyChanged("UploadDate");
 					this.OnUploadDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FileName", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		public string FileName
+		{
+			get
+			{
+				return this._FileName;
+			}
+			set
+			{
+				if ((this._FileName != value))
+				{
+					this.OnFileNameChanging(value);
+					this.SendPropertyChanging();
+					this._FileName = value;
+					this.SendPropertyChanged("FileName");
+					this.OnFileNameChanged();
 				}
 			}
 		}

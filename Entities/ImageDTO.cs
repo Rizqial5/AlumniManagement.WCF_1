@@ -14,6 +14,8 @@ namespace AlumniManagement.WCF.Entities
 
         public string ImagePath {get; set;}
 
+        public string FileName { get; set;}
+
         public System.DateTime UploadDate  {get; set;}
 
     }

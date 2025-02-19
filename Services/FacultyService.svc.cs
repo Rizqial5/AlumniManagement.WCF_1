@@ -82,7 +82,5 @@ namespace AlumniManagement.WCF.Services
 
             _context.SubmitChanges();
         }
-
-
     }
 }
