@@ -16,10 +16,19 @@ namespace AlumniManagement.WCF.Services
         IEnumerable<AlumniDTO> GetAll();
 
         [OperationContract]
+        IEnumerable<HobbyDTO> GetAllHobbies();
+
+        [OperationContract]
+        IEnumerable<HobbyDTO> GetAllHobbiesByAlumniId(int alumniId);
+
+        [OperationContract]
         AlumniDTO GetAlumni(int alumniId);
 
         [OperationContract]
         void InsertAlumni(AlumniDTO alumni);
+
+        [OperationContract]
+        void InsertAlumniWithHobbies(AlumniDTO alumni, IEnumerable<int> newHobbies );
 
         [OperationContract]
         void UpdateAlumni(AlumniDTO alumni);

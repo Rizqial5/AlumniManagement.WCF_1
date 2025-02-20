@@ -51,6 +51,12 @@ namespace AlumniManagement.WCF.Entities
     partial void InsertAlumniImage(AlumniImage instance);
     partial void UpdateAlumniImage(AlumniImage instance);
     partial void DeleteAlumniImage(AlumniImage instance);
+    partial void InsertAlumniHobby(AlumniHobby instance);
+    partial void UpdateAlumniHobby(AlumniHobby instance);
+    partial void DeleteAlumniHobby(AlumniHobby instance);
+    partial void InsertHobby(Hobby instance);
+    partial void UpdateHobby(Hobby instance);
+    partial void DeleteHobby(Hobby instance);
     #endregion
 		
 		public AlumniManagementDataContext(string connection) : 
@@ -132,6 +138,22 @@ namespace AlumniManagement.WCF.Entities
 				return this.GetTable<AlumniImage>();
 			}
 		}
+		
+		public System.Data.Linq.Table<AlumniHobby> AlumniHobbies
+		{
+			get
+			{
+				return this.GetTable<AlumniHobby>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Hobby> Hobbies
+		{
+			get
+			{
+				return this.GetTable<Hobby>();
+			}
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Alumni")]
@@ -171,6 +193,8 @@ namespace AlumniManagement.WCF.Entities
 		private EntitySet<JobHistory> _JobHistories;
 		
 		private EntitySet<AlumniImage> _AlumniImages;
+		
+		private EntitySet<AlumniHobby> _AlumniHobbies;
 		
 		private EntityRef<Major> _Major;
 		
@@ -214,6 +238,7 @@ namespace AlumniManagement.WCF.Entities
 		{
 			this._JobHistories = new EntitySet<JobHistory>(new Action<JobHistory>(this.attach_JobHistories), new Action<JobHistory>(this.detach_JobHistories));
 			this._AlumniImages = new EntitySet<AlumniImage>(new Action<AlumniImage>(this.attach_AlumniImages), new Action<AlumniImage>(this.detach_AlumniImages));
+			this._AlumniHobbies = new EntitySet<AlumniHobby>(new Action<AlumniHobby>(this.attach_AlumniHobbies), new Action<AlumniHobby>(this.detach_AlumniHobbies));
 			this._Major = default(EntityRef<Major>);
 			this._District = default(EntityRef<District>);
 			OnCreated();
@@ -533,6 +558,19 @@ namespace AlumniManagement.WCF.Entities
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Alumni_AlumniHobby", Storage="_AlumniHobbies", ThisKey="AlumniID", OtherKey="AlumniID")]
+		public EntitySet<AlumniHobby> AlumniHobbies
+		{
+			get
+			{
+				return this._AlumniHobbies;
+			}
+			set
+			{
+				this._AlumniHobbies.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Major_Alumni", Storage="_Major", ThisKey="MajorID", OtherKey="MajorID", IsForeignKey=true)]
 		public Major Major
 		{
@@ -640,6 +678,18 @@ namespace AlumniManagement.WCF.Entities
 		}
 		
 		private void detach_AlumniImages(AlumniImage entity)
+		{
+			this.SendPropertyChanging();
+			entity.Alumni = null;
+		}
+		
+		private void attach_AlumniHobbies(AlumniHobby entity)
+		{
+			this.SendPropertyChanging();
+			entity.Alumni = this;
+		}
+		
+		private void detach_AlumniHobbies(AlumniHobby entity)
 		{
 			this.SendPropertyChanging();
 			entity.Alumni = null;
@@ -1795,6 +1845,288 @@ namespace AlumniManagement.WCF.Entities
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.AlumniHobbies")]
+	public partial class AlumniHobby : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _AlumniID;
+		
+		private int _HobbyID;
+		
+		private EntityRef<Alumni> _Alumni;
+		
+		private EntityRef<Hobby> _Hobby;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnAlumniIDChanging(int value);
+    partial void OnAlumniIDChanged();
+    partial void OnHobbyIDChanging(int value);
+    partial void OnHobbyIDChanged();
+    #endregion
+		
+		public AlumniHobby()
+		{
+			this._Alumni = default(EntityRef<Alumni>);
+			this._Hobby = default(EntityRef<Hobby>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AlumniID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int AlumniID
+		{
+			get
+			{
+				return this._AlumniID;
+			}
+			set
+			{
+				if ((this._AlumniID != value))
+				{
+					if (this._Alumni.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnAlumniIDChanging(value);
+					this.SendPropertyChanging();
+					this._AlumniID = value;
+					this.SendPropertyChanged("AlumniID");
+					this.OnAlumniIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HobbyID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int HobbyID
+		{
+			get
+			{
+				return this._HobbyID;
+			}
+			set
+			{
+				if ((this._HobbyID != value))
+				{
+					if (this._Hobby.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnHobbyIDChanging(value);
+					this.SendPropertyChanging();
+					this._HobbyID = value;
+					this.SendPropertyChanged("HobbyID");
+					this.OnHobbyIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Alumni_AlumniHobby", Storage="_Alumni", ThisKey="AlumniID", OtherKey="AlumniID", IsForeignKey=true)]
+		public Alumni Alumni
+		{
+			get
+			{
+				return this._Alumni.Entity;
+			}
+			set
+			{
+				Alumni previousValue = this._Alumni.Entity;
+				if (((previousValue != value) 
+							|| (this._Alumni.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Alumni.Entity = null;
+						previousValue.AlumniHobbies.Remove(this);
+					}
+					this._Alumni.Entity = value;
+					if ((value != null))
+					{
+						value.AlumniHobbies.Add(this);
+						this._AlumniID = value.AlumniID;
+					}
+					else
+					{
+						this._AlumniID = default(int);
+					}
+					this.SendPropertyChanged("Alumni");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Hobby_AlumniHobby", Storage="_Hobby", ThisKey="HobbyID", OtherKey="HobbyID", IsForeignKey=true)]
+		public Hobby Hobby
+		{
+			get
+			{
+				return this._Hobby.Entity;
+			}
+			set
+			{
+				Hobby previousValue = this._Hobby.Entity;
+				if (((previousValue != value) 
+							|| (this._Hobby.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Hobby.Entity = null;
+						previousValue.AlumniHobbies.Remove(this);
+					}
+					this._Hobby.Entity = value;
+					if ((value != null))
+					{
+						value.AlumniHobbies.Add(this);
+						this._HobbyID = value.HobbyID;
+					}
+					else
+					{
+						this._HobbyID = default(int);
+					}
+					this.SendPropertyChanged("Hobby");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Hobbies")]
+	public partial class Hobby : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _HobbyID;
+		
+		private string _Name;
+		
+		private EntitySet<AlumniHobby> _AlumniHobbies;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnHobbyIDChanging(int value);
+    partial void OnHobbyIDChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    #endregion
+		
+		public Hobby()
+		{
+			this._AlumniHobbies = new EntitySet<AlumniHobby>(new Action<AlumniHobby>(this.attach_AlumniHobbies), new Action<AlumniHobby>(this.detach_AlumniHobbies));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_HobbyID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int HobbyID
+		{
+			get
+			{
+				return this._HobbyID;
+			}
+			set
+			{
+				if ((this._HobbyID != value))
+				{
+					this.OnHobbyIDChanging(value);
+					this.SendPropertyChanging();
+					this._HobbyID = value;
+					this.SendPropertyChanged("HobbyID");
+					this.OnHobbyIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Hobby_AlumniHobby", Storage="_AlumniHobbies", ThisKey="HobbyID", OtherKey="HobbyID")]
+		public EntitySet<AlumniHobby> AlumniHobbies
+		{
+			get
+			{
+				return this._AlumniHobbies;
+			}
+			set
+			{
+				this._AlumniHobbies.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_AlumniHobbies(AlumniHobby entity)
+		{
+			this.SendPropertyChanging();
+			entity.Hobby = this;
+		}
+		
+		private void detach_AlumniHobbies(AlumniHobby entity)
+		{
+			this.SendPropertyChanging();
+			entity.Hobby = null;
 		}
 	}
 }

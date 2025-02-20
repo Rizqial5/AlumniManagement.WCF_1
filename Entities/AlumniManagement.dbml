@@ -17,6 +17,7 @@
       <Column Name="ModifiedDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Association Name="Alumni_JobHistory" Member="JobHistories" ThisKey="AlumniID" OtherKey="AlumniID" Type="JobHistory" />
       <Association Name="Alumni_AlumniImage" Member="AlumniImages" ThisKey="AlumniID" OtherKey="AlumniID" Type="AlumniImage" />
+      <Association Name="Alumni_AlumniHobby" Member="AlumniHobbies" ThisKey="AlumniID" OtherKey="AlumniID" Type="AlumniHobby" />
       <Association Name="Major_Alumni" Member="Major" ThisKey="MajorID" OtherKey="MajorID" Type="Major" IsForeignKey="true" />
       <Association Name="District_Alumni" Member="District" ThisKey="DistrictID" OtherKey="DistrictID" Type="District" IsForeignKey="true" />
     </Type>
@@ -78,6 +79,21 @@
       <Column Name="UploadDate" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="FileName" Type="System.String" DbType="NVarChar(255) NOT NULL" CanBeNull="false" />
       <Association Name="Alumni_AlumniImage" Member="Alumni" ThisKey="AlumniID" OtherKey="AlumniID" Type="Alumni" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.AlumniHobbies" Member="AlumniHobbies">
+    <Type Name="AlumniHobby">
+      <Column Name="AlumniID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="HobbyID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Alumni_AlumniHobby" Member="Alumni" ThisKey="AlumniID" OtherKey="AlumniID" Type="Alumni" IsForeignKey="true" />
+      <Association Name="Hobby_AlumniHobby" Member="Hobby" ThisKey="HobbyID" OtherKey="HobbyID" Type="Hobby" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Hobbies" Member="Hobbies">
+    <Type Name="Hobby">
+      <Column Name="HobbyID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="Hobby_AlumniHobby" Member="AlumniHobbies" ThisKey="HobbyID" OtherKey="HobbyID" Type="AlumniHobby" />
     </Type>
   </Table>
 </Database>

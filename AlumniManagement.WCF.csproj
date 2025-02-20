@@ -104,6 +104,7 @@
     <Compile Include="Entities\DistrictDTO.cs" />
     <Compile Include="Entities\FacultyDTO.cs" />
     <Compile Include="Entities\HistoryDTO.cs" />
+    <Compile Include="Entities\HobbyDTO.cs" />
     <Compile Include="Entities\ImageDTO.cs" />
     <Compile Include="Entities\JobDTO.cs" />
     <Compile Include="Entities\MajorDTO.cs" />

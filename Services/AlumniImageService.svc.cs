@@ -26,7 +26,7 @@ namespace AlumniManagement.WCF.Services
 
         public IEnumerable<ImageDTO> GetAllImage(int alumniId)
         {
-            var data = _context.AlumniImages.ToList();
+            var data = _context.AlumniImages.ToList().Where(a=> a.AlumniID == alumniId);
 
             var result = data.Select(x => Mapping.Mapper.Map<ImageDTO>(x));
 
@@ -38,7 +38,7 @@ namespace AlumniManagement.WCF.Services
         public ImageDTO GetImageById(int imageId, int alumniId)
         {
             var selectedData = (from i in _context.AlumniImages
-                                where i.AlumniID == imageId
+                                where i.AlumniID == alumniId
                                 select i).FirstOrDefault(i=> i.ImageID == imageId);
 
             return Mapping.Mapper.Map<ImageDTO>(selectedData);

@@ -56,10 +56,17 @@ namespace AlumniManagement.WCF.Entities
         public int FacultyID { get; set; }
         [Ignore]
         public int StateID { get; set; }
+        [Ignore]
+        public string HobbiesListName { get; set; }
+
+        [Ignore]
+        public IEnumerable<HobbyDTO> Hobbies { get; set;}
 
         [Ignore]
         public IEnumerable<SelectListItem> DistrictDDL { get; set; }
         [Ignore]
         public IEnumerable<SelectListItem> MajorDDl { get; set; }
+        [Ignore]
+        public IEnumerable<SelectListItem> HobbiesDDl { get; set; }
     }
 }
