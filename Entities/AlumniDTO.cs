@@ -1,6 +1,7 @@
 ﻿using AutoMapper.Configuration.Annotations;
 using System;
 using System.Collections.Generic;
+using System.Data.Linq;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -60,7 +61,7 @@ namespace AlumniManagement.WCF.Entities
         public string HobbiesListName { get; set; }
 
         [Ignore]
-        public IEnumerable<HobbyDTO> Hobbies { get; set;}
+        public IEnumerable<int> Hobbies { get; set;}
 
         [Ignore]
         public IEnumerable<SelectListItem> DistrictDDL { get; set; }
@@ -68,5 +69,7 @@ namespace AlumniManagement.WCF.Entities
         public IEnumerable<SelectListItem> MajorDDl { get; set; }
         [Ignore]
         public IEnumerable<SelectListItem> HobbiesDDl { get; set; }
+
+
     }
 }

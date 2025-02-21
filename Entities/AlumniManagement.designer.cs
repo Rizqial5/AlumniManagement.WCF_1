@@ -57,6 +57,27 @@ namespace AlumniManagement.WCF.Entities
     partial void InsertHobby(Hobby instance);
     partial void UpdateHobby(Hobby instance);
     partial void DeleteHobby(Hobby instance);
+    partial void InsertJobSkill(JobSkill instance);
+    partial void UpdateJobSkill(JobSkill instance);
+    partial void DeleteJobSkill(JobSkill instance);
+    partial void InsertJobAttachmentType(JobAttachmentType instance);
+    partial void UpdateJobAttachmentType(JobAttachmentType instance);
+    partial void DeleteJobAttachmentType(JobAttachmentType instance);
+    partial void InsertJobAttachment(JobAttachment instance);
+    partial void UpdateJobAttachment(JobAttachment instance);
+    partial void DeleteJobAttachment(JobAttachment instance);
+    partial void InsertJobCandidate(JobCandidate instance);
+    partial void UpdateJobCandidate(JobCandidate instance);
+    partial void DeleteJobCandidate(JobCandidate instance);
+    partial void InsertJobPosting(JobPosting instance);
+    partial void UpdateJobPosting(JobPosting instance);
+    partial void DeleteJobPosting(JobPosting instance);
+    partial void InsertAttachmentType(AttachmentType instance);
+    partial void UpdateAttachmentType(AttachmentType instance);
+    partial void DeleteAttachmentType(AttachmentType instance);
+    partial void InsertEmploymentType(EmploymentType instance);
+    partial void UpdateEmploymentType(EmploymentType instance);
+    partial void DeleteEmploymentType(EmploymentType instance);
     #endregion
 		
 		public AlumniManagementDataContext(string connection) : 
@@ -154,6 +175,62 @@ namespace AlumniManagement.WCF.Entities
 				return this.GetTable<Hobby>();
 			}
 		}
+		
+		public System.Data.Linq.Table<JobSkill> JobSkills
+		{
+			get
+			{
+				return this.GetTable<JobSkill>();
+			}
+		}
+		
+		public System.Data.Linq.Table<JobAttachmentType> JobAttachmentTypes
+		{
+			get
+			{
+				return this.GetTable<JobAttachmentType>();
+			}
+		}
+		
+		public System.Data.Linq.Table<JobAttachment> JobAttachments
+		{
+			get
+			{
+				return this.GetTable<JobAttachment>();
+			}
+		}
+		
+		public System.Data.Linq.Table<JobCandidate> JobCandidates
+		{
+			get
+			{
+				return this.GetTable<JobCandidate>();
+			}
+		}
+		
+		public System.Data.Linq.Table<JobPosting> JobPostings
+		{
+			get
+			{
+				return this.GetTable<JobPosting>();
+			}
+		}
+		
+		public System.Data.Linq.Table<AttachmentType> AttachmentTypes
+		{
+			get
+			{
+				return this.GetTable<AttachmentType>();
+			}
+		}
+		
+		public System.Data.Linq.Table<EmploymentType> EmploymentTypes
+		{
+			get
+			{
+				return this.GetTable<EmploymentType>();
+			}
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Alumni")]
@@ -195,6 +272,10 @@ namespace AlumniManagement.WCF.Entities
 		private EntitySet<AlumniImage> _AlumniImages;
 		
 		private EntitySet<AlumniHobby> _AlumniHobbies;
+		
+		private EntitySet<JobAttachment> _JobAttachments;
+		
+		private EntitySet<JobCandidate> _JobCandidates;
 		
 		private EntityRef<Major> _Major;
 		
@@ -239,6 +320,8 @@ namespace AlumniManagement.WCF.Entities
 			this._JobHistories = new EntitySet<JobHistory>(new Action<JobHistory>(this.attach_JobHistories), new Action<JobHistory>(this.detach_JobHistories));
 			this._AlumniImages = new EntitySet<AlumniImage>(new Action<AlumniImage>(this.attach_AlumniImages), new Action<AlumniImage>(this.detach_AlumniImages));
 			this._AlumniHobbies = new EntitySet<AlumniHobby>(new Action<AlumniHobby>(this.attach_AlumniHobbies), new Action<AlumniHobby>(this.detach_AlumniHobbies));
+			this._JobAttachments = new EntitySet<JobAttachment>(new Action<JobAttachment>(this.attach_JobAttachments), new Action<JobAttachment>(this.detach_JobAttachments));
+			this._JobCandidates = new EntitySet<JobCandidate>(new Action<JobCandidate>(this.attach_JobCandidates), new Action<JobCandidate>(this.detach_JobCandidates));
 			this._Major = default(EntityRef<Major>);
 			this._District = default(EntityRef<District>);
 			OnCreated();
@@ -571,6 +654,32 @@ namespace AlumniManagement.WCF.Entities
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Alumni_JobAttachment", Storage="_JobAttachments", ThisKey="AlumniID", OtherKey="AlumniID")]
+		public EntitySet<JobAttachment> JobAttachments
+		{
+			get
+			{
+				return this._JobAttachments;
+			}
+			set
+			{
+				this._JobAttachments.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Alumni_JobCandidate", Storage="_JobCandidates", ThisKey="AlumniID", OtherKey="AlumniID")]
+		public EntitySet<JobCandidate> JobCandidates
+		{
+			get
+			{
+				return this._JobCandidates;
+			}
+			set
+			{
+				this._JobCandidates.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Major_Alumni", Storage="_Major", ThisKey="MajorID", OtherKey="MajorID", IsForeignKey=true)]
 		public Major Major
 		{
@@ -690,6 +799,30 @@ namespace AlumniManagement.WCF.Entities
 		}
 		
 		private void detach_AlumniHobbies(AlumniHobby entity)
+		{
+			this.SendPropertyChanging();
+			entity.Alumni = null;
+		}
+		
+		private void attach_JobAttachments(JobAttachment entity)
+		{
+			this.SendPropertyChanging();
+			entity.Alumni = this;
+		}
+		
+		private void detach_JobAttachments(JobAttachment entity)
+		{
+			this.SendPropertyChanging();
+			entity.Alumni = null;
+		}
+		
+		private void attach_JobCandidates(JobCandidate entity)
+		{
+			this.SendPropertyChanging();
+			entity.Alumni = this;
+		}
+		
+		private void detach_JobCandidates(JobCandidate entity)
 		{
 			this.SendPropertyChanging();
 			entity.Alumni = null;
@@ -2127,6 +2260,1461 @@ namespace AlumniManagement.WCF.Entities
 		{
 			this.SendPropertyChanging();
 			entity.Hobby = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.JobSkill")]
+	public partial class JobSkill : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private System.Guid _JobID;
+		
+		private byte _SkillID;
+		
+		private EntityRef<JobPosting> _JobPosting;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnJobIDChanging(System.Guid value);
+    partial void OnJobIDChanged();
+    partial void OnSkillIDChanging(byte value);
+    partial void OnSkillIDChanged();
+    #endregion
+		
+		public JobSkill()
+		{
+			this._JobPosting = default(EntityRef<JobPosting>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_JobID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid JobID
+		{
+			get
+			{
+				return this._JobID;
+			}
+			set
+			{
+				if ((this._JobID != value))
+				{
+					if (this._JobPosting.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnJobIDChanging(value);
+					this.SendPropertyChanging();
+					this._JobID = value;
+					this.SendPropertyChanged("JobID");
+					this.OnJobIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SkillID", DbType="TinyInt NOT NULL", IsPrimaryKey=true)]
+		public byte SkillID
+		{
+			get
+			{
+				return this._SkillID;
+			}
+			set
+			{
+				if ((this._SkillID != value))
+				{
+					this.OnSkillIDChanging(value);
+					this.SendPropertyChanging();
+					this._SkillID = value;
+					this.SendPropertyChanged("SkillID");
+					this.OnSkillIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="JobPosting_JobSkill", Storage="_JobPosting", ThisKey="JobID", OtherKey="JobID", IsForeignKey=true)]
+		public JobPosting JobPosting
+		{
+			get
+			{
+				return this._JobPosting.Entity;
+			}
+			set
+			{
+				JobPosting previousValue = this._JobPosting.Entity;
+				if (((previousValue != value) 
+							|| (this._JobPosting.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._JobPosting.Entity = null;
+						previousValue.JobSkills.Remove(this);
+					}
+					this._JobPosting.Entity = value;
+					if ((value != null))
+					{
+						value.JobSkills.Add(this);
+						this._JobID = value.JobID;
+					}
+					else
+					{
+						this._JobID = default(System.Guid);
+					}
+					this.SendPropertyChanged("JobPosting");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.JobAttachmentType")]
+	public partial class JobAttachmentType : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private System.Guid _JobID;
+		
+		private byte _AttachmentTypeID;
+		
+		private EntityRef<JobPosting> _JobPosting;
+		
+		private EntityRef<AttachmentType> _AttachmentType;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnJobIDChanging(System.Guid value);
+    partial void OnJobIDChanged();
+    partial void OnAttachmentTypeIDChanging(byte value);
+    partial void OnAttachmentTypeIDChanged();
+    #endregion
+		
+		public JobAttachmentType()
+		{
+			this._JobPosting = default(EntityRef<JobPosting>);
+			this._AttachmentType = default(EntityRef<AttachmentType>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_JobID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid JobID
+		{
+			get
+			{
+				return this._JobID;
+			}
+			set
+			{
+				if ((this._JobID != value))
+				{
+					if (this._JobPosting.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnJobIDChanging(value);
+					this.SendPropertyChanging();
+					this._JobID = value;
+					this.SendPropertyChanged("JobID");
+					this.OnJobIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AttachmentTypeID", DbType="TinyInt NOT NULL", IsPrimaryKey=true)]
+		public byte AttachmentTypeID
+		{
+			get
+			{
+				return this._AttachmentTypeID;
+			}
+			set
+			{
+				if ((this._AttachmentTypeID != value))
+				{
+					if (this._AttachmentType.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnAttachmentTypeIDChanging(value);
+					this.SendPropertyChanging();
+					this._AttachmentTypeID = value;
+					this.SendPropertyChanged("AttachmentTypeID");
+					this.OnAttachmentTypeIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="JobPosting_JobAttachmentType", Storage="_JobPosting", ThisKey="JobID", OtherKey="JobID", IsForeignKey=true)]
+		public JobPosting JobPosting
+		{
+			get
+			{
+				return this._JobPosting.Entity;
+			}
+			set
+			{
+				JobPosting previousValue = this._JobPosting.Entity;
+				if (((previousValue != value) 
+							|| (this._JobPosting.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._JobPosting.Entity = null;
+						previousValue.JobAttachmentTypes.Remove(this);
+					}
+					this._JobPosting.Entity = value;
+					if ((value != null))
+					{
+						value.JobAttachmentTypes.Add(this);
+						this._JobID = value.JobID;
+					}
+					else
+					{
+						this._JobID = default(System.Guid);
+					}
+					this.SendPropertyChanged("JobPosting");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AttachmentType_JobAttachmentType", Storage="_AttachmentType", ThisKey="AttachmentTypeID", OtherKey="AttachmentTypeID", IsForeignKey=true)]
+		public AttachmentType AttachmentType
+		{
+			get
+			{
+				return this._AttachmentType.Entity;
+			}
+			set
+			{
+				AttachmentType previousValue = this._AttachmentType.Entity;
+				if (((previousValue != value) 
+							|| (this._AttachmentType.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._AttachmentType.Entity = null;
+						previousValue.JobAttachmentTypes.Remove(this);
+					}
+					this._AttachmentType.Entity = value;
+					if ((value != null))
+					{
+						value.JobAttachmentTypes.Add(this);
+						this._AttachmentTypeID = value.AttachmentTypeID;
+					}
+					else
+					{
+						this._AttachmentTypeID = default(byte);
+					}
+					this.SendPropertyChanged("AttachmentType");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.JobAttachment")]
+	public partial class JobAttachment : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _AttachmentID;
+		
+		private System.Guid _JobID;
+		
+		private int _AlumniID;
+		
+		private byte _AttachmentTypeID;
+		
+		private string _FilePath;
+		
+		private string _FileName;
+		
+		private EntityRef<Alumni> _Alumni;
+		
+		private EntityRef<JobPosting> _JobPosting;
+		
+		private EntityRef<AttachmentType> _AttachmentType;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnAttachmentIDChanging(int value);
+    partial void OnAttachmentIDChanged();
+    partial void OnJobIDChanging(System.Guid value);
+    partial void OnJobIDChanged();
+    partial void OnAlumniIDChanging(int value);
+    partial void OnAlumniIDChanged();
+    partial void OnAttachmentTypeIDChanging(byte value);
+    partial void OnAttachmentTypeIDChanged();
+    partial void OnFilePathChanging(string value);
+    partial void OnFilePathChanged();
+    partial void OnFileNameChanging(string value);
+    partial void OnFileNameChanged();
+    #endregion
+		
+		public JobAttachment()
+		{
+			this._Alumni = default(EntityRef<Alumni>);
+			this._JobPosting = default(EntityRef<JobPosting>);
+			this._AttachmentType = default(EntityRef<AttachmentType>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AttachmentID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int AttachmentID
+		{
+			get
+			{
+				return this._AttachmentID;
+			}
+			set
+			{
+				if ((this._AttachmentID != value))
+				{
+					this.OnAttachmentIDChanging(value);
+					this.SendPropertyChanging();
+					this._AttachmentID = value;
+					this.SendPropertyChanged("AttachmentID");
+					this.OnAttachmentIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_JobID", DbType="UniqueIdentifier NOT NULL")]
+		public System.Guid JobID
+		{
+			get
+			{
+				return this._JobID;
+			}
+			set
+			{
+				if ((this._JobID != value))
+				{
+					if (this._JobPosting.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnJobIDChanging(value);
+					this.SendPropertyChanging();
+					this._JobID = value;
+					this.SendPropertyChanged("JobID");
+					this.OnJobIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AlumniID", DbType="Int NOT NULL")]
+		public int AlumniID
+		{
+			get
+			{
+				return this._AlumniID;
+			}
+			set
+			{
+				if ((this._AlumniID != value))
+				{
+					if (this._Alumni.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnAlumniIDChanging(value);
+					this.SendPropertyChanging();
+					this._AlumniID = value;
+					this.SendPropertyChanged("AlumniID");
+					this.OnAlumniIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AttachmentTypeID", DbType="TinyInt NOT NULL")]
+		public byte AttachmentTypeID
+		{
+			get
+			{
+				return this._AttachmentTypeID;
+			}
+			set
+			{
+				if ((this._AttachmentTypeID != value))
+				{
+					if (this._AttachmentType.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnAttachmentTypeIDChanging(value);
+					this.SendPropertyChanging();
+					this._AttachmentTypeID = value;
+					this.SendPropertyChanged("AttachmentTypeID");
+					this.OnAttachmentTypeIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FilePath", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string FilePath
+		{
+			get
+			{
+				return this._FilePath;
+			}
+			set
+			{
+				if ((this._FilePath != value))
+				{
+					this.OnFilePathChanging(value);
+					this.SendPropertyChanging();
+					this._FilePath = value;
+					this.SendPropertyChanged("FilePath");
+					this.OnFilePathChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FileName", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string FileName
+		{
+			get
+			{
+				return this._FileName;
+			}
+			set
+			{
+				if ((this._FileName != value))
+				{
+					this.OnFileNameChanging(value);
+					this.SendPropertyChanging();
+					this._FileName = value;
+					this.SendPropertyChanged("FileName");
+					this.OnFileNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Alumni_JobAttachment", Storage="_Alumni", ThisKey="AlumniID", OtherKey="AlumniID", IsForeignKey=true)]
+		public Alumni Alumni
+		{
+			get
+			{
+				return this._Alumni.Entity;
+			}
+			set
+			{
+				Alumni previousValue = this._Alumni.Entity;
+				if (((previousValue != value) 
+							|| (this._Alumni.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Alumni.Entity = null;
+						previousValue.JobAttachments.Remove(this);
+					}
+					this._Alumni.Entity = value;
+					if ((value != null))
+					{
+						value.JobAttachments.Add(this);
+						this._AlumniID = value.AlumniID;
+					}
+					else
+					{
+						this._AlumniID = default(int);
+					}
+					this.SendPropertyChanged("Alumni");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="JobPosting_JobAttachment", Storage="_JobPosting", ThisKey="JobID", OtherKey="JobID", IsForeignKey=true)]
+		public JobPosting JobPosting
+		{
+			get
+			{
+				return this._JobPosting.Entity;
+			}
+			set
+			{
+				JobPosting previousValue = this._JobPosting.Entity;
+				if (((previousValue != value) 
+							|| (this._JobPosting.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._JobPosting.Entity = null;
+						previousValue.JobAttachments.Remove(this);
+					}
+					this._JobPosting.Entity = value;
+					if ((value != null))
+					{
+						value.JobAttachments.Add(this);
+						this._JobID = value.JobID;
+					}
+					else
+					{
+						this._JobID = default(System.Guid);
+					}
+					this.SendPropertyChanged("JobPosting");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AttachmentType_JobAttachment", Storage="_AttachmentType", ThisKey="AttachmentTypeID", OtherKey="AttachmentTypeID", IsForeignKey=true)]
+		public AttachmentType AttachmentType
+		{
+			get
+			{
+				return this._AttachmentType.Entity;
+			}
+			set
+			{
+				AttachmentType previousValue = this._AttachmentType.Entity;
+				if (((previousValue != value) 
+							|| (this._AttachmentType.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._AttachmentType.Entity = null;
+						previousValue.JobAttachments.Remove(this);
+					}
+					this._AttachmentType.Entity = value;
+					if ((value != null))
+					{
+						value.JobAttachments.Add(this);
+						this._AttachmentTypeID = value.AttachmentTypeID;
+					}
+					else
+					{
+						this._AttachmentTypeID = default(byte);
+					}
+					this.SendPropertyChanged("AttachmentType");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.JobCandidate")]
+	public partial class JobCandidate : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _AlumniID;
+		
+		private System.Guid _JobID;
+		
+		private System.DateTime _ApplyDate;
+		
+		private EntityRef<Alumni> _Alumni;
+		
+		private EntityRef<JobPosting> _JobPosting;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnAlumniIDChanging(int value);
+    partial void OnAlumniIDChanged();
+    partial void OnJobIDChanging(System.Guid value);
+    partial void OnJobIDChanged();
+    partial void OnApplyDateChanging(System.DateTime value);
+    partial void OnApplyDateChanged();
+    #endregion
+		
+		public JobCandidate()
+		{
+			this._Alumni = default(EntityRef<Alumni>);
+			this._JobPosting = default(EntityRef<JobPosting>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AlumniID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int AlumniID
+		{
+			get
+			{
+				return this._AlumniID;
+			}
+			set
+			{
+				if ((this._AlumniID != value))
+				{
+					if (this._Alumni.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnAlumniIDChanging(value);
+					this.SendPropertyChanging();
+					this._AlumniID = value;
+					this.SendPropertyChanged("AlumniID");
+					this.OnAlumniIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_JobID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid JobID
+		{
+			get
+			{
+				return this._JobID;
+			}
+			set
+			{
+				if ((this._JobID != value))
+				{
+					if (this._JobPosting.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnJobIDChanging(value);
+					this.SendPropertyChanging();
+					this._JobID = value;
+					this.SendPropertyChanged("JobID");
+					this.OnJobIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ApplyDate", DbType="DateTime NOT NULL")]
+		public System.DateTime ApplyDate
+		{
+			get
+			{
+				return this._ApplyDate;
+			}
+			set
+			{
+				if ((this._ApplyDate != value))
+				{
+					this.OnApplyDateChanging(value);
+					this.SendPropertyChanging();
+					this._ApplyDate = value;
+					this.SendPropertyChanged("ApplyDate");
+					this.OnApplyDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Alumni_JobCandidate", Storage="_Alumni", ThisKey="AlumniID", OtherKey="AlumniID", IsForeignKey=true)]
+		public Alumni Alumni
+		{
+			get
+			{
+				return this._Alumni.Entity;
+			}
+			set
+			{
+				Alumni previousValue = this._Alumni.Entity;
+				if (((previousValue != value) 
+							|| (this._Alumni.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Alumni.Entity = null;
+						previousValue.JobCandidates.Remove(this);
+					}
+					this._Alumni.Entity = value;
+					if ((value != null))
+					{
+						value.JobCandidates.Add(this);
+						this._AlumniID = value.AlumniID;
+					}
+					else
+					{
+						this._AlumniID = default(int);
+					}
+					this.SendPropertyChanged("Alumni");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="JobPosting_JobCandidate", Storage="_JobPosting", ThisKey="JobID", OtherKey="JobID", IsForeignKey=true)]
+		public JobPosting JobPosting
+		{
+			get
+			{
+				return this._JobPosting.Entity;
+			}
+			set
+			{
+				JobPosting previousValue = this._JobPosting.Entity;
+				if (((previousValue != value) 
+							|| (this._JobPosting.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._JobPosting.Entity = null;
+						previousValue.JobCandidates.Remove(this);
+					}
+					this._JobPosting.Entity = value;
+					if ((value != null))
+					{
+						value.JobCandidates.Add(this);
+						this._JobID = value.JobID;
+					}
+					else
+					{
+						this._JobID = default(System.Guid);
+					}
+					this.SendPropertyChanged("JobPosting");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.JobPosting")]
+	public partial class JobPosting : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private System.Guid _JobID;
+		
+		private string _Title;
+		
+		private string _Company;
+		
+		private string _JobDescription;
+		
+		private byte _EmploymentTypeID;
+		
+		private byte _MinimumExperience;
+		
+		private System.DateTime _ModifiedDate;
+		
+		private bool _IsActive;
+		
+		private System.Nullable<bool> _IsClosed;
+		
+		private EntitySet<JobSkill> _JobSkills;
+		
+		private EntitySet<JobAttachmentType> _JobAttachmentTypes;
+		
+		private EntitySet<JobAttachment> _JobAttachments;
+		
+		private EntitySet<JobCandidate> _JobCandidates;
+		
+		private EntityRef<EmploymentType> _EmploymentType;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnJobIDChanging(System.Guid value);
+    partial void OnJobIDChanged();
+    partial void OnTitleChanging(string value);
+    partial void OnTitleChanged();
+    partial void OnCompanyChanging(string value);
+    partial void OnCompanyChanged();
+    partial void OnJobDescriptionChanging(string value);
+    partial void OnJobDescriptionChanged();
+    partial void OnEmploymentTypeIDChanging(byte value);
+    partial void OnEmploymentTypeIDChanged();
+    partial void OnMinimumExperienceChanging(byte value);
+    partial void OnMinimumExperienceChanged();
+    partial void OnModifiedDateChanging(System.DateTime value);
+    partial void OnModifiedDateChanged();
+    partial void OnIsActiveChanging(bool value);
+    partial void OnIsActiveChanged();
+    partial void OnIsClosedChanging(System.Nullable<bool> value);
+    partial void OnIsClosedChanged();
+    #endregion
+		
+		public JobPosting()
+		{
+			this._JobSkills = new EntitySet<JobSkill>(new Action<JobSkill>(this.attach_JobSkills), new Action<JobSkill>(this.detach_JobSkills));
+			this._JobAttachmentTypes = new EntitySet<JobAttachmentType>(new Action<JobAttachmentType>(this.attach_JobAttachmentTypes), new Action<JobAttachmentType>(this.detach_JobAttachmentTypes));
+			this._JobAttachments = new EntitySet<JobAttachment>(new Action<JobAttachment>(this.attach_JobAttachments), new Action<JobAttachment>(this.detach_JobAttachments));
+			this._JobCandidates = new EntitySet<JobCandidate>(new Action<JobCandidate>(this.attach_JobCandidates), new Action<JobCandidate>(this.detach_JobCandidates));
+			this._EmploymentType = default(EntityRef<EmploymentType>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_JobID", DbType="UniqueIdentifier NOT NULL", IsPrimaryKey=true)]
+		public System.Guid JobID
+		{
+			get
+			{
+				return this._JobID;
+			}
+			set
+			{
+				if ((this._JobID != value))
+				{
+					this.OnJobIDChanging(value);
+					this.SendPropertyChanging();
+					this._JobID = value;
+					this.SendPropertyChanged("JobID");
+					this.OnJobIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Title", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string Title
+		{
+			get
+			{
+				return this._Title;
+			}
+			set
+			{
+				if ((this._Title != value))
+				{
+					this.OnTitleChanging(value);
+					this.SendPropertyChanging();
+					this._Title = value;
+					this.SendPropertyChanged("Title");
+					this.OnTitleChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Company", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string Company
+		{
+			get
+			{
+				return this._Company;
+			}
+			set
+			{
+				if ((this._Company != value))
+				{
+					this.OnCompanyChanging(value);
+					this.SendPropertyChanging();
+					this._Company = value;
+					this.SendPropertyChanged("Company");
+					this.OnCompanyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_JobDescription", DbType="NVarChar(500) NOT NULL", CanBeNull=false)]
+		public string JobDescription
+		{
+			get
+			{
+				return this._JobDescription;
+			}
+			set
+			{
+				if ((this._JobDescription != value))
+				{
+					this.OnJobDescriptionChanging(value);
+					this.SendPropertyChanging();
+					this._JobDescription = value;
+					this.SendPropertyChanged("JobDescription");
+					this.OnJobDescriptionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EmploymentTypeID", DbType="TinyInt NOT NULL")]
+		public byte EmploymentTypeID
+		{
+			get
+			{
+				return this._EmploymentTypeID;
+			}
+			set
+			{
+				if ((this._EmploymentTypeID != value))
+				{
+					if (this._EmploymentType.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnEmploymentTypeIDChanging(value);
+					this.SendPropertyChanging();
+					this._EmploymentTypeID = value;
+					this.SendPropertyChanged("EmploymentTypeID");
+					this.OnEmploymentTypeIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MinimumExperience", DbType="TinyInt NOT NULL")]
+		public byte MinimumExperience
+		{
+			get
+			{
+				return this._MinimumExperience;
+			}
+			set
+			{
+				if ((this._MinimumExperience != value))
+				{
+					this.OnMinimumExperienceChanging(value);
+					this.SendPropertyChanging();
+					this._MinimumExperience = value;
+					this.SendPropertyChanged("MinimumExperience");
+					this.OnMinimumExperienceChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ModifiedDate", DbType="DateTime NOT NULL")]
+		public System.DateTime ModifiedDate
+		{
+			get
+			{
+				return this._ModifiedDate;
+			}
+			set
+			{
+				if ((this._ModifiedDate != value))
+				{
+					this.OnModifiedDateChanging(value);
+					this.SendPropertyChanging();
+					this._ModifiedDate = value;
+					this.SendPropertyChanged("ModifiedDate");
+					this.OnModifiedDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsActive", DbType="Bit NOT NULL")]
+		public bool IsActive
+		{
+			get
+			{
+				return this._IsActive;
+			}
+			set
+			{
+				if ((this._IsActive != value))
+				{
+					this.OnIsActiveChanging(value);
+					this.SendPropertyChanging();
+					this._IsActive = value;
+					this.SendPropertyChanged("IsActive");
+					this.OnIsActiveChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsClosed", DbType="Bit")]
+		public System.Nullable<bool> IsClosed
+		{
+			get
+			{
+				return this._IsClosed;
+			}
+			set
+			{
+				if ((this._IsClosed != value))
+				{
+					this.OnIsClosedChanging(value);
+					this.SendPropertyChanging();
+					this._IsClosed = value;
+					this.SendPropertyChanged("IsClosed");
+					this.OnIsClosedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="JobPosting_JobSkill", Storage="_JobSkills", ThisKey="JobID", OtherKey="JobID")]
+		public EntitySet<JobSkill> JobSkills
+		{
+			get
+			{
+				return this._JobSkills;
+			}
+			set
+			{
+				this._JobSkills.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="JobPosting_JobAttachmentType", Storage="_JobAttachmentTypes", ThisKey="JobID", OtherKey="JobID")]
+		public EntitySet<JobAttachmentType> JobAttachmentTypes
+		{
+			get
+			{
+				return this._JobAttachmentTypes;
+			}
+			set
+			{
+				this._JobAttachmentTypes.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="JobPosting_JobAttachment", Storage="_JobAttachments", ThisKey="JobID", OtherKey="JobID")]
+		public EntitySet<JobAttachment> JobAttachments
+		{
+			get
+			{
+				return this._JobAttachments;
+			}
+			set
+			{
+				this._JobAttachments.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="JobPosting_JobCandidate", Storage="_JobCandidates", ThisKey="JobID", OtherKey="JobID")]
+		public EntitySet<JobCandidate> JobCandidates
+		{
+			get
+			{
+				return this._JobCandidates;
+			}
+			set
+			{
+				this._JobCandidates.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="EmploymentType_JobPosting", Storage="_EmploymentType", ThisKey="EmploymentTypeID", OtherKey="EmploymentTypeID", IsForeignKey=true)]
+		public EmploymentType EmploymentType
+		{
+			get
+			{
+				return this._EmploymentType.Entity;
+			}
+			set
+			{
+				EmploymentType previousValue = this._EmploymentType.Entity;
+				if (((previousValue != value) 
+							|| (this._EmploymentType.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._EmploymentType.Entity = null;
+						previousValue.JobPostings.Remove(this);
+					}
+					this._EmploymentType.Entity = value;
+					if ((value != null))
+					{
+						value.JobPostings.Add(this);
+						this._EmploymentTypeID = value.EmploymentTypeID;
+					}
+					else
+					{
+						this._EmploymentTypeID = default(byte);
+					}
+					this.SendPropertyChanged("EmploymentType");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_JobSkills(JobSkill entity)
+		{
+			this.SendPropertyChanging();
+			entity.JobPosting = this;
+		}
+		
+		private void detach_JobSkills(JobSkill entity)
+		{
+			this.SendPropertyChanging();
+			entity.JobPosting = null;
+		}
+		
+		private void attach_JobAttachmentTypes(JobAttachmentType entity)
+		{
+			this.SendPropertyChanging();
+			entity.JobPosting = this;
+		}
+		
+		private void detach_JobAttachmentTypes(JobAttachmentType entity)
+		{
+			this.SendPropertyChanging();
+			entity.JobPosting = null;
+		}
+		
+		private void attach_JobAttachments(JobAttachment entity)
+		{
+			this.SendPropertyChanging();
+			entity.JobPosting = this;
+		}
+		
+		private void detach_JobAttachments(JobAttachment entity)
+		{
+			this.SendPropertyChanging();
+			entity.JobPosting = null;
+		}
+		
+		private void attach_JobCandidates(JobCandidate entity)
+		{
+			this.SendPropertyChanging();
+			entity.JobPosting = this;
+		}
+		
+		private void detach_JobCandidates(JobCandidate entity)
+		{
+			this.SendPropertyChanging();
+			entity.JobPosting = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.AttachmentType")]
+	public partial class AttachmentType : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private byte _AttachmentTypeID;
+		
+		private string _Name;
+		
+		private EntitySet<JobAttachmentType> _JobAttachmentTypes;
+		
+		private EntitySet<JobAttachment> _JobAttachments;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnAttachmentTypeIDChanging(byte value);
+    partial void OnAttachmentTypeIDChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    #endregion
+		
+		public AttachmentType()
+		{
+			this._JobAttachmentTypes = new EntitySet<JobAttachmentType>(new Action<JobAttachmentType>(this.attach_JobAttachmentTypes), new Action<JobAttachmentType>(this.detach_JobAttachmentTypes));
+			this._JobAttachments = new EntitySet<JobAttachment>(new Action<JobAttachment>(this.attach_JobAttachments), new Action<JobAttachment>(this.detach_JobAttachments));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AttachmentTypeID", AutoSync=AutoSync.OnInsert, DbType="TinyInt NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public byte AttachmentTypeID
+		{
+			get
+			{
+				return this._AttachmentTypeID;
+			}
+			set
+			{
+				if ((this._AttachmentTypeID != value))
+				{
+					this.OnAttachmentTypeIDChanging(value);
+					this.SendPropertyChanging();
+					this._AttachmentTypeID = value;
+					this.SendPropertyChanged("AttachmentTypeID");
+					this.OnAttachmentTypeIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AttachmentType_JobAttachmentType", Storage="_JobAttachmentTypes", ThisKey="AttachmentTypeID", OtherKey="AttachmentTypeID")]
+		public EntitySet<JobAttachmentType> JobAttachmentTypes
+		{
+			get
+			{
+				return this._JobAttachmentTypes;
+			}
+			set
+			{
+				this._JobAttachmentTypes.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="AttachmentType_JobAttachment", Storage="_JobAttachments", ThisKey="AttachmentTypeID", OtherKey="AttachmentTypeID")]
+		public EntitySet<JobAttachment> JobAttachments
+		{
+			get
+			{
+				return this._JobAttachments;
+			}
+			set
+			{
+				this._JobAttachments.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_JobAttachmentTypes(JobAttachmentType entity)
+		{
+			this.SendPropertyChanging();
+			entity.AttachmentType = this;
+		}
+		
+		private void detach_JobAttachmentTypes(JobAttachmentType entity)
+		{
+			this.SendPropertyChanging();
+			entity.AttachmentType = null;
+		}
+		
+		private void attach_JobAttachments(JobAttachment entity)
+		{
+			this.SendPropertyChanging();
+			entity.AttachmentType = this;
+		}
+		
+		private void detach_JobAttachments(JobAttachment entity)
+		{
+			this.SendPropertyChanging();
+			entity.AttachmentType = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.EmploymentType")]
+	public partial class EmploymentType : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private byte _EmploymentTypeID;
+		
+		private string _Name;
+		
+		private EntitySet<JobPosting> _JobPostings;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnEmploymentTypeIDChanging(byte value);
+    partial void OnEmploymentTypeIDChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    #endregion
+		
+		public EmploymentType()
+		{
+			this._JobPostings = new EntitySet<JobPosting>(new Action<JobPosting>(this.attach_JobPostings), new Action<JobPosting>(this.detach_JobPostings));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EmploymentTypeID", AutoSync=AutoSync.OnInsert, DbType="TinyInt NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public byte EmploymentTypeID
+		{
+			get
+			{
+				return this._EmploymentTypeID;
+			}
+			set
+			{
+				if ((this._EmploymentTypeID != value))
+				{
+					this.OnEmploymentTypeIDChanging(value);
+					this.SendPropertyChanging();
+					this._EmploymentTypeID = value;
+					this.SendPropertyChanged("EmploymentTypeID");
+					this.OnEmploymentTypeIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="EmploymentType_JobPosting", Storage="_JobPostings", ThisKey="EmploymentTypeID", OtherKey="EmploymentTypeID")]
+		public EntitySet<JobPosting> JobPostings
+		{
+			get
+			{
+				return this._JobPostings;
+			}
+			set
+			{
+				this._JobPostings.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_JobPostings(JobPosting entity)
+		{
+			this.SendPropertyChanging();
+			entity.EmploymentType = this;
+		}
+		
+		private void detach_JobPostings(JobPosting entity)
+		{
+			this.SendPropertyChanging();
+			entity.EmploymentType = null;
 		}
 	}
 }

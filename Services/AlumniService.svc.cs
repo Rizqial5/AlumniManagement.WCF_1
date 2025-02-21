@@ -29,14 +29,14 @@ namespace AlumniManagement.WCF.Services
             var data = _context.Majors.ToList();
 
             var result = from a in _context.Alumnis
-                         join m in _context.Majors on a.MajorID equals m.MajorID
-                         join f in _context.Faculties on m.FacultyID equals f.FacultyID
-                         join d in _context.Districts on a.DistrictID equals d.DistrictID
-                         join s in _context.States on d.StateID equals s.StateID
-                         join ah in _context.AlumniHobbies on a.AlumniID equals ah.AlumniID into alumniHobbies
-                         from ah in alumniHobbies.DefaultIfEmpty()
-                         join h in _context.Hobbies on ah.HobbyID equals h.HobbyID into hobbies
-                         from h in hobbies.DefaultIfEmpty()
+                         //join m in _context.Majors on a.MajorID equals m.MajorID
+                         //join f in _context.Faculties on m.FacultyID equals f.FacultyID
+                         //join d in _context.Districts on a.DistrictID equals d.DistrictID
+                         //join s in _context.States on d.StateID equals s.StateID
+                         //join ah in _context.AlumniHobbies on a.AlumniID equals ah.AlumniID 
+                         ////from ah in alumniHobbies.DefaultIfEmpty()
+                         //join h in _context.Hobbies on ah.HobbyID equals h.HobbyID into 
+                         //from h in hobbies.DefaultIfEmpty()
                          select new AlumniDTO
                          {
                              AlumniID = a.AlumniID,
@@ -54,22 +54,65 @@ namespace AlumniManagement.WCF.Services
                              LinkedInProfile = a.LinkedInProfile,
                              ModifiedDate = a.ModifiedDate,
                              FullName = a.FirstName + " " + (a.MiddleName ?? "") + " " + a.LastName,
-                             FullAddress = a.Address + ", " + d.DistrictName + ", " + s.StateName,
-                             FacultyName = f.FacultyName,
-                             MajorName = m.MajorName,
-                             FacultyID = f.FacultyID,
-                             StateID = s.StateID,
-                             StateName = s.StateName,
-                             DistrictName = d.DistrictName,
-                             Hobbies = Mapping.Mapper.Map<IEnumerable<HobbyDTO>>(hobbies),
-                             HobbiesListName = String.Join(",", h.Name),
+                             FullAddress = a.Address + ", " + a.District.DistrictName + ", " + a.District.State.StateName,
+                             FacultyName = a.Major.Faculty.FacultyName,
+                             MajorName = a.Major.MajorName,
+                             FacultyID = a.Major.Faculty.FacultyID,
+                             StateID = a.District.State.StateID,
+                             StateName = a.District.State.StateName,
+                             DistrictName = a.District.DistrictName,
+                             Hobbies = a.AlumniHobbies.Select(h=> h.HobbyID).ToList(),
+                             HobbiesListName = String.Join(",", a.AlumniHobbies
+                             .Select(ah=> ah.Hobby)
+                             .Select(h=> h.Name))    
                          };
 
+            
+
+
+          
+
+            foreach (var item in result)
+            {
+                var hobies = GetTotalHobbies(item);
+
+                item.Hobbies = hobies.Select(h=> h.HobbyID);
+                item.HobbiesListName = String.Join(",", hobies.Select(h => h.Name));
+            }
 
 
             return result.OrderByDescending(a => a.ModifiedDate).ToList();
         }
 
+        private List<HobbyDTO> GetTotalHobbies(AlumniDTO alumni)
+        {
+            var result = new List<HobbyDTO>();
+
+            var hobbiesResult = from ah in _context.AlumniHobbies
+                                join h in _context.Hobbies on ah.HobbyID equals h.HobbyID
+                                select new 
+                                {
+                                    AlumniID = ah.AlumniID,
+                                    HobbyID = h.HobbyID,
+                                    HobbyName = h.Name
+                                };
+
+            foreach (var item in hobbiesResult)
+            {
+                if(item.AlumniID == alumni.AlumniID)
+                {
+                    var newHobbyDTO = new HobbyDTO
+                    {
+                        HobbyID = item.HobbyID,
+                        Name = item.HobbyName
+                    };
+
+                    result.Add(newHobbyDTO);
+                }
+            }
+
+            return result;
+        }
 
 
         public AlumniDTO GetAlumni(int alumniId)
@@ -132,7 +175,7 @@ namespace AlumniManagement.WCF.Services
         //
         // Summary:
         //     Insert alumni data with list of hobbies
-        public void InsertAlumniWithHobbies(AlumniDTO alumni, IEnumerable<int> newHobbies)
+        public void InsertAlumniWithHobbies(AlumniDTO alumni)
         {
             if (alumni.AlumniID != 0)
             {
@@ -147,7 +190,7 @@ namespace AlumniManagement.WCF.Services
 
             var newAlumniHobbies = new List<AlumniHobby>();
 
-            foreach (var item in newHobbies)
+            foreach (var item in alumni.Hobbies)
             {
                 var alumnyHobby = new AlumniHobby
                 {
@@ -164,16 +207,64 @@ namespace AlumniManagement.WCF.Services
 
         #endregion
 
+
+        #region Update Behaviour
         public void UpdateAlumni(AlumniDTO alumni)
+        {
+            UpdateAlumniIntoDatabase(alumni);
+
+            _context.SubmitChanges();
+        }
+
+        private void UpdateAlumniIntoDatabase(AlumniDTO alumni)
         {
             var selectedData = _context.Alumnis.FirstOrDefault(m => m.AlumniID == alumni.AlumniID);
 
             var updatedData = Mapping.Mapper.Map(alumni, selectedData);
 
             updatedData.ModifiedDate = DateTime.Now;
+        }
+
+        public void UpdateAlumniWithHobbies(AlumniDTO alumni)
+        {
+            UpdateAlumniIntoDatabase(alumni);
+
+            _context.SubmitChanges();
+
+            var existingHobbies = _context.AlumniHobbies
+                .Where(ah => ah.AlumniID == alumni.AlumniID)
+                .Select(ah => ah.HobbyID).ToList();
+
+
+            //Klasifikasi hobbies yang di add dan remove
+            var hobbiesToAdd = alumni.Hobbies.Except(existingHobbies).ToList();
+            var hobbiesToRemove = existingHobbies.Except(alumni.Hobbies.ToList());
+
+            foreach (var item in hobbiesToAdd)
+            {
+                var alumniHobby = new AlumniHobby
+                {
+                    AlumniID = alumni.AlumniID,
+                    HobbyID = item
+                };
+
+                _context.AlumniHobbies.InsertOnSubmit(alumniHobby);
+            }
+
+            foreach (var item in hobbiesToRemove)
+            {
+                var alumniHobby = _context.AlumniHobbies
+                    .FirstOrDefault(ah => ah.AlumniID == alumni.AlumniID && ah.HobbyID == item);
+                if( alumniHobby != null )
+                {
+                    _context.AlumniHobbies.DeleteOnSubmit(alumniHobby);
+                }
+            }
 
             _context.SubmitChanges();
         }
+
+        #endregion
 
         public void DeleteAlumni(int alumniId)
         {

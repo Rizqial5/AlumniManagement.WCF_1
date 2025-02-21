@@ -28,10 +28,13 @@ namespace AlumniManagement.WCF.Services
         void InsertAlumni(AlumniDTO alumni);
 
         [OperationContract]
-        void InsertAlumniWithHobbies(AlumniDTO alumni, IEnumerable<int> newHobbies );
+        void InsertAlumniWithHobbies(AlumniDTO alumni);
 
         [OperationContract]
         void UpdateAlumni(AlumniDTO alumni);
+
+        [OperationContract]
+        void UpdateAlumniWithHobbies(AlumniDTO alumni);
 
         [OperationContract]
         void DeleteAlumni(int alumniId);
