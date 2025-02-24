@@ -56,7 +56,7 @@ namespace AlumniManagement.WCF.Services
                 SelectedAttachmentTypes = x.JobAttachmentTypes.Select(jat => (int)jat.AttachmentTypeID).ToList(),
                 SelectedSkills = x.JobSkills.Select(s => (int)s.SkillID).ToList(),
                 ActiveDetails = x.IsActive ? "Active" : "Inactive",
-                ClosedDetails = x.IsClosed ? "Open" : "Closed"
+                ClosedDetails = x.IsClosed ? "Closed" : "Open"
             });
 
     
