@@ -3,10 +3,14 @@ using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data.SqlClient;
+using System.Data;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
+using System.ServiceModel.Configuration;
+using System.Data.Linq;
 
 namespace AlumniManagement.WCF.Services
 {
@@ -29,14 +33,14 @@ namespace AlumniManagement.WCF.Services
             var data = _context.Majors.ToList();
 
             var result = from a in _context.Alumnis
-                         //join m in _context.Majors on a.MajorID equals m.MajorID
-                         //join f in _context.Faculties on m.FacultyID equals f.FacultyID
-                         //join d in _context.Districts on a.DistrictID equals d.DistrictID
-                         //join s in _context.States on d.StateID equals s.StateID
-                         //join ah in _context.AlumniHobbies on a.AlumniID equals ah.AlumniID 
-                         ////from ah in alumniHobbies.DefaultIfEmpty()
-                         //join h in _context.Hobbies on ah.HobbyID equals h.HobbyID into 
-                         //from h in hobbies.DefaultIfEmpty()
+                             //join m in _context.Majors on a.MajorID equals m.MajorID
+                             //join f in _context.Faculties on m.FacultyID equals f.FacultyID
+                             //join d in _context.Districts on a.DistrictID equals d.DistrictID
+                             //join s in _context.States on d.StateID equals s.StateID
+                             //join ah in _context.AlumniHobbies on a.AlumniID equals ah.AlumniID 
+                             ////from ah in alumniHobbies.DefaultIfEmpty()
+                             //join h in _context.Hobbies on ah.HobbyID equals h.HobbyID into 
+                             //from h in hobbies.DefaultIfEmpty()
                          select new AlumniDTO
                          {
                              AlumniID = a.AlumniID,
@@ -61,22 +65,25 @@ namespace AlumniManagement.WCF.Services
                              StateID = a.District.State.StateID,
                              StateName = a.District.State.StateName,
                              DistrictName = a.District.DistrictName,
-                             Hobbies = a.AlumniHobbies.Select(h=> h.HobbyID).ToList(),
+                             Hobbies = a.AlumniHobbies.Select(h => h.HobbyID).ToList(),
                              HobbiesListName = String.Join(",", a.AlumniHobbies
-                             .Select(ah=> ah.Hobby)
-                             .Select(h=> h.Name))    
+                             .Select(ah => ah.Hobby)
+                             .Select(h => h.Name)),
+                             PhotoName = a.PhotoName,
+                             PhotoPath = a.PhotoPath
+
                          };
 
-            
 
 
-          
+
+
 
             foreach (var item in result)
             {
                 var hobies = GetTotalHobbies(item);
 
-                item.Hobbies = hobies.Select(h=> h.HobbyID);
+                item.Hobbies = hobies.Select(h => h.HobbyID);
                 item.HobbiesListName = String.Join(",", hobies.Select(h => h.Name));
             }
 
@@ -90,7 +97,7 @@ namespace AlumniManagement.WCF.Services
 
             var hobbiesResult = from ah in _context.AlumniHobbies
                                 join h in _context.Hobbies on ah.HobbyID equals h.HobbyID
-                                select new 
+                                select new
                                 {
                                     AlumniID = ah.AlumniID,
                                     HobbyID = h.HobbyID,
@@ -99,7 +106,7 @@ namespace AlumniManagement.WCF.Services
 
             foreach (var item in hobbiesResult)
             {
-                if(item.AlumniID == alumni.AlumniID)
+                if (item.AlumniID == alumni.AlumniID)
                 {
                     var newHobbyDTO = new HobbyDTO
                     {
@@ -117,7 +124,7 @@ namespace AlumniManagement.WCF.Services
 
         public AlumniDTO GetAlumni(int alumniId)
         {
-            var result = GetAll().FirstOrDefault(r=> r.AlumniID == alumniId);
+            var result = GetAll().FirstOrDefault(r => r.AlumniID == alumniId);
 
             return Mapping.Mapper.Map<AlumniDTO>(result);
         }
@@ -125,8 +132,8 @@ namespace AlumniManagement.WCF.Services
         public int GetDistrictIdByName(string districtName)
         {
             var selectedData = _context.Districts.FirstOrDefault(m => m.DistrictName == districtName);
-            
-            int districtId= selectedData.DistrictID;
+
+            int districtId = selectedData.DistrictID;
 
             return districtId;
         }
@@ -255,7 +262,7 @@ namespace AlumniManagement.WCF.Services
             {
                 var alumniHobby = _context.AlumniHobbies
                     .FirstOrDefault(ah => ah.AlumniID == alumni.AlumniID && ah.HobbyID == item);
-                if( alumniHobby != null )
+                if (alumniHobby != null)
                 {
                     _context.AlumniHobbies.DeleteOnSubmit(alumniHobby);
                 }
@@ -268,6 +275,16 @@ namespace AlumniManagement.WCF.Services
 
         public void DeleteAlumni(int alumniId)
         {
+
+            //delete hobbies
+
+            var selectedAh = _context.AlumniHobbies.FirstOrDefault(ah => ah.AlumniID == alumniId);
+
+            if (selectedAh != null)
+            {
+                _context.AlumniHobbies.DeleteOnSubmit(selectedAh);
+                _context.SubmitChanges();
+            }
 
             var selectedData = _context.Alumnis.FirstOrDefault(m => m.AlumniID == alumniId);
 
@@ -292,7 +309,7 @@ namespace AlumniManagement.WCF.Services
                             where d.StateID == stateId
                             select d;
 
-            var result = districts.Select(d=> Mapping.Mapper.Map<DistrictDTO>(d));
+            var result = districts.Select(d => Mapping.Mapper.Map<DistrictDTO>(d));
 
             return result.ToList();
         }
@@ -308,7 +325,7 @@ namespace AlumniManagement.WCF.Services
 
         public void ImportFromExcel(AlumniDTO alumniDTO)
         {
-            if(CheckAlumniId(alumniDTO.AlumniID))
+            if (CheckAlumniId(alumniDTO.AlumniID))
             {
                 UpdateAlumni(alumniDTO);
             }
@@ -326,7 +343,7 @@ namespace AlumniManagement.WCF.Services
 
             foreach (var item in dataList)
             {
-                if(item.FirstName == alumniDTO.FirstName && item.LastName == alumniDTO.LastName)
+                if (item.FirstName == alumniDTO.FirstName && item.LastName == alumniDTO.LastName)
                 {
                     return true;
                 }
@@ -347,7 +364,7 @@ namespace AlumniManagement.WCF.Services
 
         public IEnumerable<string> GetStatesDistrictName()
         {
-           
+
 
             var districtsStatesName = from d in _context.Districts
                                       join s in _context.States on d.StateID equals s.StateID
@@ -356,7 +373,7 @@ namespace AlumniManagement.WCF.Services
                                           StatesDistricts = s.StateName + " - " + d.DistrictName
                                       };
 
-      
+
 
             return districtsStatesName.Select(s => s.StatesDistricts).ToList();
         }
@@ -370,7 +387,7 @@ namespace AlumniManagement.WCF.Services
                                          MajorFaculties = f.FacultyName + " - " + m.MajorName
                                      };
 
-            return majorFacultiesName.Select(s=> s.MajorFaculties).ToList();
+            return majorFacultiesName.Select(s => s.MajorFaculties).ToList();
         }
 
         public IEnumerable<HobbyDTO> GetAllHobbies()
@@ -396,6 +413,52 @@ namespace AlumniManagement.WCF.Services
             return result;
         }
 
+        public void UpsertAlumni(AlumniDTO alumni)
+        {
+            try
+            {
+                var alumniHobbies = new DataTable();
+                alumniHobbies.Columns.Add("AlumniID", typeof(int));
+                alumniHobbies.Columns.Add("HobbyID", typeof(int));
 
+                foreach (var item in alumni.Hobbies)
+                {
+                    alumniHobbies.Rows.Add(alumni.AlumniID, item);
+                }
+
+                using (var connection = new SqlConnection(_context.Connection.ConnectionString))
+                {
+                    using (var command = new SqlCommand("dbo.UpsertAlumni", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        command.Parameters.Add(new SqlParameter("@AlumniID", SqlDbType.Int) { Value = (object)alumni.AlumniID ?? 0 });
+                        command.Parameters.Add(new SqlParameter("@FirstName", SqlDbType.NVarChar, 50) { Value = alumni.FirstName });
+                        command.Parameters.Add(new SqlParameter("@MiddleName", SqlDbType.NVarChar, 50) { Value = (object)alumni.MiddleName ?? DBNull.Value });
+                        command.Parameters.Add(new SqlParameter("@LastName", SqlDbType.NVarChar, 50) { Value = alumni.LastName });
+                        command.Parameters.Add(new SqlParameter("@Email", SqlDbType.NVarChar, 50) { Value = alumni.Email });
+                        command.Parameters.Add(new SqlParameter("@MobileNumber", SqlDbType.NVarChar, 15) { Value = alumni.MobileNumber });
+                        command.Parameters.Add(new SqlParameter("@Address", SqlDbType.NVarChar, 255) { Value = alumni.Address });
+                        command.Parameters.Add(new SqlParameter("@DistrictID", SqlDbType.Int) { Value = alumni.DistrictID });
+                        command.Parameters.Add(new SqlParameter("@DateOfBirth", SqlDbType.Date) { Value = (object)alumni.DateOfBirth ?? DBNull.Value });
+                        command.Parameters.Add(new SqlParameter("@GraduationYear", SqlDbType.Int) { Value = alumni.GraduationYear });
+                        command.Parameters.Add(new SqlParameter("@Degree", SqlDbType.NVarChar, 100) { Value = (object)alumni.Degree ?? DBNull.Value });
+                        command.Parameters.Add(new SqlParameter("@MajorID", SqlDbType.Int) { Value = alumni.MajorID });
+                        command.Parameters.Add(new SqlParameter("@LinkedInProfile", SqlDbType.NVarChar, 255) { Value = (object)alumni.LinkedInProfile ?? DBNull.Value });
+                        command.Parameters.Add(new SqlParameter("@PhotoPath", SqlDbType.NVarChar, 255) { Value = (object)alumni.PhotoPath ?? DBNull.Value });
+                        command.Parameters.Add(new SqlParameter("@PhotoName", SqlDbType.NVarChar, 100) { Value = (object)alumni.PhotoName ?? DBNull.Value });
+                        command.Parameters.Add(new SqlParameter("@ModifiedDate", SqlDbType.DateTime) { Value = DateTime.Now });
+                        command.Parameters.Add(new SqlParameter("@AlumniHobbies", SqlDbType.Structured) { TypeName = "dbo.AlumniHobbiesType", Value = alumniHobbies });
+
+                        connection.Open();
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

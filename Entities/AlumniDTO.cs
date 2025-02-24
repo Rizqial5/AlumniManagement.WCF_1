@@ -38,6 +38,10 @@ namespace AlumniManagement.WCF.Entities
 
         public System.DateTime ModifiedDate {get;  set;}
 
+        public string PhotoPath{get; set;}
+
+        public string PhotoName{get; set;}
+
         // tambahan
         [Ignore]
         public string FullAddress { get; set; }

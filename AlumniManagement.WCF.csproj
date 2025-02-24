@@ -92,6 +92,7 @@
     <Content Include="Services\FacultyService.svc" />
     <Content Include="Services\JobHistorySerice.svc" />
     <Content Include="Services\MajorService.svc" />
+    <Content Include="Services\PostingJobService.svc" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -101,14 +102,21 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AlumniManagement.dbml</DependentUpon>
     </Compile>
+    <Compile Include="Entities\AttachmentTypeDTO.cs" />
     <Compile Include="Entities\DistrictDTO.cs" />
+    <Compile Include="Entities\EmploymentTypeDTO.cs" />
     <Compile Include="Entities\FacultyDTO.cs" />
     <Compile Include="Entities\HistoryDTO.cs" />
     <Compile Include="Entities\HobbyDTO.cs" />
     <Compile Include="Entities\ImageDTO.cs" />
+    <Compile Include="Entities\JobAttachmentDTO.cs" />
+    <Compile Include="Entities\JobCandidateDTO.cs" />
     <Compile Include="Entities\JobDTO.cs" />
+    <Compile Include="Entities\JobPostingDTO.cs" />
+    <Compile Include="Entities\JobSkillDTO.cs" />
     <Compile Include="Entities\MajorDTO.cs" />
     <Compile Include="Entities\ModelMapping.cs" />
+    <Compile Include="Entities\SkillDTO.cs" />
     <Compile Include="Entities\StateDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AlumniImageService.svc.cs">
@@ -125,11 +133,15 @@
     <Compile Include="Services\IFacultyService.cs" />
     <Compile Include="Services\IJobHistorySerice.cs" />
     <Compile Include="Services\IMajorService.cs" />
+    <Compile Include="Services\IPostingJobService.cs" />
     <Compile Include="Services\JobHistorySerice.svc.cs">
       <DependentUpon>JobHistorySerice.svc</DependentUpon>
     </Compile>
     <Compile Include="Services\MajorService.svc.cs">
       <DependentUpon>MajorService.svc</DependentUpon>
+    </Compile>
+    <Compile Include="Services\PostingJobService.svc.cs">
+      <DependentUpon>PostingJobService.svc</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

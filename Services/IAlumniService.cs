@@ -62,5 +62,8 @@ namespace AlumniManagement.WCF.Services
         [OperationContract]
         void ImportFromExcel(AlumniDTO alumniDTO);
 
+        [OperationContract]
+        void UpsertAlumni(AlumniDTO alumniDTO);
+
     }
 }
