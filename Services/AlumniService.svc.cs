@@ -460,5 +460,76 @@ namespace AlumniManagement.WCF.Services
                 throw new Exception(ex.Message);
             }
         }
+
+        public void UpsertMultipleAlumni(List<AlumniDTO> alumniDTO)
+        {
+            try
+            {
+                var alumniTable = new DataTable();
+                alumniTable.Columns.Add("AlumniID", typeof(int));
+                alumniTable.Columns.Add("FirstName", typeof(string));
+                alumniTable.Columns.Add("MiddleName", typeof(string));
+                alumniTable.Columns.Add("LastName", typeof(string));
+                alumniTable.Columns.Add("Email", typeof(string));
+                alumniTable.Columns.Add("MobileNumber", typeof(string));
+                alumniTable.Columns.Add("Address", typeof(string));
+                alumniTable.Columns.Add("DistrictID", typeof(int));
+                alumniTable.Columns.Add("DateOfBirth", typeof(DateTime));
+                alumniTable.Columns.Add("GraduationYear", typeof(int));
+                alumniTable.Columns.Add("Degree", typeof(string));
+                alumniTable.Columns.Add("MajorID", typeof(int));
+                alumniTable.Columns.Add("LinkedInProfile", typeof(string));
+                alumniTable.Columns.Add("PhotoPath", typeof(string));
+                alumniTable.Columns.Add("PhotoName", typeof(string));
+
+                var hobbiesTable = new DataTable();
+                hobbiesTable.Columns.Add("AlumniID", typeof(int));
+                hobbiesTable.Columns.Add("HobbyID", typeof(int));
+
+                foreach (var alumni in alumniDTO)
+                {
+                    alumniTable.Rows.Add(
+                        alumni.AlumniID, alumni.FirstName, alumni.MiddleName, alumni.LastName, alumni.Email,
+                        alumni.MobileNumber, alumni.Address, alumni.DistrictID, alumni.DateOfBirth ?? (object)DBNull.Value,
+                        alumni.GraduationYear, alumni.Degree, alumni.MajorID, alumni.LinkedInProfile,
+                        alumni.PhotoPath, alumni.PhotoName
+                    );
+
+                    foreach (var hobby in alumni.Hobbies)
+                    {
+                        hobbiesTable.Rows.Add(alumni.AlumniID, hobby);
+                    }
+                }
+
+                using (var connection = new SqlConnection(_context.Connection.ConnectionString))
+                {
+                    using (var command = new SqlCommand("dbo.UpsertMultipleAlumni", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+
+                        var alumniParam = new SqlParameter("@AlumniList", SqlDbType.Structured)
+                        {
+                            TypeName = "dbo.AlumniType",
+                            Value = alumniTable
+                        };
+                        command.Parameters.Add(alumniParam);
+
+                        var hobbiesParam = new SqlParameter("@AlumniHobbies", SqlDbType.Structured)
+                        {
+                            TypeName = "dbo.AlumniHobbiesType",
+                            Value = hobbiesTable
+                        };
+                        command.Parameters.Add(hobbiesParam);
+
+                        connection.Open();
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error in UpsertMultipleAlumni: " + ex.Message);
+            }
+        }
     }
 }

@@ -46,5 +46,8 @@ namespace AlumniManagement.WCF.Services
 
         [OperationContract]
         void UpsertJobPosting(JobPostingDTO jobPostingDTO);
+
+        [OperationContract]
+        void UpsertJobPostingList(List<JobPostingDTO> jobPostingDTO);
     }
 }

@@ -392,5 +392,10 @@ namespace AlumniManagement.WCF.Services
                 throw new Exception(ex.Message);
             }
         }
+
+        public void UpsertJobPostingList(List<JobPostingDTO> jobPostingDTO)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

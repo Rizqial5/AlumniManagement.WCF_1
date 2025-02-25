@@ -65,5 +65,8 @@ namespace AlumniManagement.WCF.Services
         [OperationContract]
         void UpsertAlumni(AlumniDTO alumniDTO);
 
+        [OperationContract]
+        void UpsertMultipleAlumni(List<AlumniDTO> alumniDTO);
+
     }
 }
