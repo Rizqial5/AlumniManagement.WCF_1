@@ -36,7 +36,7 @@ namespace AlumniManagement.WCF.Services
         void InsertJobPosting(JobPostingDTO jobPostingDTO);
 
         [OperationContract]
-        void InsertApplyJob(JobAttachmentDTO jobAttachmentDTO);
+        void InsertApplyJob(List<JobAttachmentDTO> jobAttachmentDTO, Guid jobId, int alumniId);
 
         [OperationContract]
         void UpdateJobPosting(JobPostingDTO jobPostingDTO);

@@ -264,20 +264,17 @@ namespace AlumniManagement.WCF.Services
 
         }
 
-        public void InsertApplyJob(JobAttachmentDTO jobAttachmentDTO)
+        public void InsertApplyJob(List<JobAttachmentDTO> jobAttachmentDTO, Guid jobId, int alumniId)
         {
-            var data = Mapping.Mapper.Map<JobAttachment>(jobAttachmentDTO);
+            //Insert List Attachments
 
-            //insert alumni attachment to the job
-            _context.JobAttachments.InsertOnSubmit(data);
-
-            _context.SubmitChanges();
+            InsertJObAttachments(jobAttachmentDTO);
 
             // insert alumni data to candidates data
             var candidatesData = new JobCandidate
             {
-                JobID = jobAttachmentDTO.JobID,
-                AlumniID = jobAttachmentDTO.AlumniID,
+                JobID = jobId,
+                AlumniID = alumniId,
                 ApplyDate = DateTime.Now
             };
 
@@ -285,6 +282,13 @@ namespace AlumniManagement.WCF.Services
 
             _context.SubmitChanges();
 
+        }
+
+        private void InsertJObAttachments(List<JobAttachmentDTO> jobAttachmentDTOs)
+        {
+            _context.JobAttachments.InsertAllOnSubmit(Mapping.Mapper.Map<List<JobAttachment>>(jobAttachmentDTOs));
+
+            _context.SubmitChanges();
         }
 
         public IEnumerable<JobCandidateDTO> GetAllCandidateBYJObId(Guid jobID)
@@ -302,6 +306,8 @@ namespace AlumniManagement.WCF.Services
                 {
                     FilePath = ja.FilePath,
                     FileName = ja.FileName,
+                    AttachmentTypeID = ja.AttachmentTypeID
+                    
                 }  
                 ).ToList(),
                 AlumniId = d.AlumniID
