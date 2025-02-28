@@ -44,7 +44,9 @@ namespace AlumniManagement.WCF
             CreateMap<JobAttachmentDTO, JobAttachment>().ReverseMap();
             CreateMap<HobbyDTO, Hobby>().ReverseMap();
             CreateMap<SkillDTO, Skill>().ReverseMap();
-
+            CreateMap<PhotoAlbumDTO, PhotoAlbum>().ReverseMap();
+            CreateMap<PhotoDTO, Photo>().ReverseMap();
+            CreateMap<EventDTO, Event>().ReverseMap();
 
         }
     }

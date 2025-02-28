@@ -70,8 +70,8 @@ namespace AlumniManagement.WCF.Services
                              .Select(ah => ah.Hobby)
                              .Select(h => h.Name)),
                              PhotoName = a.PhotoName,
-                             PhotoPath = a.PhotoPath
-
+                             PhotoPath = a.PhotoPath,
+                             Gender = a.Gender
                          };
 
 
@@ -448,6 +448,7 @@ namespace AlumniManagement.WCF.Services
                         command.Parameters.Add(new SqlParameter("@PhotoPath", SqlDbType.NVarChar, 255) { Value = (object)alumni.PhotoPath ?? DBNull.Value });
                         command.Parameters.Add(new SqlParameter("@PhotoName", SqlDbType.NVarChar, 100) { Value = (object)alumni.PhotoName ?? DBNull.Value });
                         command.Parameters.Add(new SqlParameter("@ModifiedDate", SqlDbType.DateTime) { Value = DateTime.Now });
+                        command.Parameters.Add(new SqlParameter("@Gender", SqlDbType.VarChar) { Value = alumni.Gender });
                         command.Parameters.Add(new SqlParameter("@AlumniHobbies", SqlDbType.Structured) { TypeName = "dbo.AlumniHobbiesType", Value = alumniHobbies });
 
                         connection.Open();
@@ -481,6 +482,7 @@ namespace AlumniManagement.WCF.Services
                 alumniTable.Columns.Add("LinkedInProfile", typeof(string));
                 alumniTable.Columns.Add("PhotoPath", typeof(string));
                 alumniTable.Columns.Add("PhotoName", typeof(string));
+                alumniTable.Columns.Add("Gender", typeof(string));
 
                 var hobbiesTable = new DataTable();
                 hobbiesTable.Columns.Add("AlumniID", typeof(int));
@@ -492,7 +494,7 @@ namespace AlumniManagement.WCF.Services
                         alumni.AlumniID, alumni.FirstName, alumni.MiddleName, alumni.LastName, alumni.Email,
                         alumni.MobileNumber, alumni.Address, alumni.DistrictID, alumni.DateOfBirth ?? (object)DBNull.Value,
                         alumni.GraduationYear, alumni.Degree, alumni.MajorID, alumni.LinkedInProfile,
-                        alumni.PhotoPath, alumni.PhotoName
+                        alumni.PhotoPath, alumni.PhotoName, alumni.Gender
                     );
 
                     foreach (var hobby in alumni.Hobbies)

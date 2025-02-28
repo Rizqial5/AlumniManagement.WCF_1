@@ -42,6 +42,8 @@ namespace AlumniManagement.WCF.Entities
 
         public string PhotoName{get; set;}
 
+        public string Gender {get; set;}    
+
         // tambahan
         [Ignore]
         public string FullAddress { get; set; }
