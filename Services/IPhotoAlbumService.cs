@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AlumniManagement.WCF.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -12,6 +13,33 @@ namespace AlumniManagement.WCF.Services
     public interface IPhotoAlbumService
     {
         [OperationContract]
-        void DoWork();
+        IEnumerable<PhotoAlbumDTO> GetPhotoAlbums();
+
+
+        [OperationContract]
+        IEnumerable<PhotoDTO> GetAllPhotoByAlbumId(int AlbumId);
+
+        [OperationContract]
+        PhotoAlbumDTO GetPhotoAlbumById(int AlbumId);
+
+        [OperationContract]
+        PhotoDTO GetPhotoByAlbumIdAndPhotoId(int AlbumId, int photoId);
+
+        [OperationContract]
+        void InsertPhotoAlbum(PhotoAlbumDTO photoAlbum);
+
+        [OperationContract]
+        void InsertPhoto(PhotoDTO photo, int albumID);
+
+        [OperationContract]
+        void UpdatePhotoAlbum(PhotoAlbumDTO photoAlbum);
+
+        [OperationContract]
+        void DeletePhotoAlbum(int albumID);
+
+        [OperationContract]
+        void DeletePhoto(int albumID, int photoID);
+
+
     }
 }
