@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoMapper.Configuration.Annotations;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -24,5 +25,11 @@ namespace AlumniManagement.WCF.Entities
         public bool IsClosed{get; set;}
 
         public System.DateTime ModifiedDate{get; set;}
+
+        [Ignore]
+        public string DateDisplay{get; set;}
+
+        [Ignore]
+        public string Status { get; set;}
     }
 }

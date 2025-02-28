@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AlumniManagement.WCF.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -12,6 +13,15 @@ namespace AlumniManagement.WCF.Services
     public interface IEventService
     {
         [OperationContract]
-        void DoWork();
+        IEnumerable<EventDTO> GetAllEvents();
+
+        [OperationContract]
+        EventDTO GetEventById(int eventId);
+
+        [OperationContract]
+        void UpsertEvent(EventDTO eventDTO);    
+
+        [OperationContract]
+        void DeleteEvent(int eventId);
     }
 }

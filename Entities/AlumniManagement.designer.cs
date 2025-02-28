@@ -81,12 +81,15 @@ namespace AlumniManagement.WCF.Entities
     partial void InsertAlumni(Alumni instance);
     partial void UpdateAlumni(Alumni instance);
     partial void DeleteAlumni(Alumni instance);
-    partial void InsertPhotoAlbum(PhotoAlbum instance);
-    partial void UpdatePhotoAlbum(PhotoAlbum instance);
-    partial void DeletePhotoAlbum(PhotoAlbum instance);
+    partial void InsertEvent(Event instance);
+    partial void UpdateEvent(Event instance);
+    partial void DeleteEvent(Event instance);
     partial void InsertPhoto(Photo instance);
     partial void UpdatePhoto(Photo instance);
     partial void DeletePhoto(Photo instance);
+    partial void InsertPhotoAlbum(PhotoAlbum instance);
+    partial void UpdatePhotoAlbum(PhotoAlbum instance);
+    partial void DeletePhotoAlbum(PhotoAlbum instance);
     #endregion
 		
 		public AlumniManagementDataContext(string connection) : 
@@ -257,19 +260,19 @@ namespace AlumniManagement.WCF.Entities
 			}
 		}
 		
-		public System.Data.Linq.Table<PhotoAlbum> PhotoAlbums
-		{
-			get
-			{
-				return this.GetTable<PhotoAlbum>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Photo> Photos
 		{
 			get
 			{
 				return this.GetTable<Photo>();
+			}
+		}
+		
+		public System.Data.Linq.Table<PhotoAlbum> PhotoAlbums
+		{
+			get
+			{
+				return this.GetTable<PhotoAlbum>();
 			}
 		}
 	}
@@ -4035,8 +4038,10 @@ namespace AlumniManagement.WCF.Entities
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Events")]
-	public partial class Event
+	public partial class Event : INotifyPropertyChanging, INotifyPropertyChanged
 	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
 		private int _EventID;
 		
@@ -4056,11 +4061,36 @@ namespace AlumniManagement.WCF.Entities
 		
 		private System.DateTime _ModifiedDate;
 		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnEventIDChanging(int value);
+    partial void OnEventIDChanged();
+    partial void OnTitleChanging(string value);
+    partial void OnTitleChanged();
+    partial void OnDescriptionChanging(string value);
+    partial void OnDescriptionChanged();
+    partial void OnEventImagePathChanging(string value);
+    partial void OnEventImagePathChanged();
+    partial void OnEventImageNameChanging(string value);
+    partial void OnEventImageNameChanged();
+    partial void OnStartDateChanging(System.DateTime value);
+    partial void OnStartDateChanged();
+    partial void OnEndDateChanging(System.DateTime value);
+    partial void OnEndDateChanged();
+    partial void OnIsClosedChanging(bool value);
+    partial void OnIsClosedChanged();
+    partial void OnModifiedDateChanging(System.DateTime value);
+    partial void OnModifiedDateChanged();
+    #endregion
+		
 		public Event()
 		{
+			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EventID", DbType="Int NOT NULL")]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EventID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
 		public int EventID
 		{
 			get
@@ -4071,7 +4101,11 @@ namespace AlumniManagement.WCF.Entities
 			{
 				if ((this._EventID != value))
 				{
+					this.OnEventIDChanging(value);
+					this.SendPropertyChanging();
 					this._EventID = value;
+					this.SendPropertyChanged("EventID");
+					this.OnEventIDChanged();
 				}
 			}
 		}
@@ -4087,7 +4121,11 @@ namespace AlumniManagement.WCF.Entities
 			{
 				if ((this._Title != value))
 				{
+					this.OnTitleChanging(value);
+					this.SendPropertyChanging();
 					this._Title = value;
+					this.SendPropertyChanged("Title");
+					this.OnTitleChanged();
 				}
 			}
 		}
@@ -4103,7 +4141,11 @@ namespace AlumniManagement.WCF.Entities
 			{
 				if ((this._Description != value))
 				{
+					this.OnDescriptionChanging(value);
+					this.SendPropertyChanging();
 					this._Description = value;
+					this.SendPropertyChanged("Description");
+					this.OnDescriptionChanged();
 				}
 			}
 		}
@@ -4119,7 +4161,11 @@ namespace AlumniManagement.WCF.Entities
 			{
 				if ((this._EventImagePath != value))
 				{
+					this.OnEventImagePathChanging(value);
+					this.SendPropertyChanging();
 					this._EventImagePath = value;
+					this.SendPropertyChanged("EventImagePath");
+					this.OnEventImagePathChanged();
 				}
 			}
 		}
@@ -4135,7 +4181,11 @@ namespace AlumniManagement.WCF.Entities
 			{
 				if ((this._EventImageName != value))
 				{
+					this.OnEventImageNameChanging(value);
+					this.SendPropertyChanging();
 					this._EventImageName = value;
+					this.SendPropertyChanged("EventImageName");
+					this.OnEventImageNameChanged();
 				}
 			}
 		}
@@ -4151,7 +4201,11 @@ namespace AlumniManagement.WCF.Entities
 			{
 				if ((this._StartDate != value))
 				{
+					this.OnStartDateChanging(value);
+					this.SendPropertyChanging();
 					this._StartDate = value;
+					this.SendPropertyChanged("StartDate");
+					this.OnStartDateChanged();
 				}
 			}
 		}
@@ -4167,7 +4221,11 @@ namespace AlumniManagement.WCF.Entities
 			{
 				if ((this._EndDate != value))
 				{
+					this.OnEndDateChanging(value);
+					this.SendPropertyChanging();
 					this._EndDate = value;
+					this.SendPropertyChanged("EndDate");
+					this.OnEndDateChanged();
 				}
 			}
 		}
@@ -4183,96 +4241,11 @@ namespace AlumniManagement.WCF.Entities
 			{
 				if ((this._IsClosed != value))
 				{
+					this.OnIsClosedChanging(value);
+					this.SendPropertyChanging();
 					this._IsClosed = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ModifiedDate", DbType="DateTime NOT NULL")]
-		public System.DateTime ModifiedDate
-		{
-			get
-			{
-				return this._ModifiedDate;
-			}
-			set
-			{
-				if ((this._ModifiedDate != value))
-				{
-					this._ModifiedDate = value;
-				}
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.PhotoAlbum")]
-	public partial class PhotoAlbum : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _AlbumID;
-		
-		private string _AlbumName;
-		
-		private System.DateTime _ModifiedDate;
-		
-		private EntitySet<Photo> _Photos;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnAlbumIDChanging(int value);
-    partial void OnAlbumIDChanged();
-    partial void OnAlbumNameChanging(string value);
-    partial void OnAlbumNameChanged();
-    partial void OnModifiedDateChanging(System.DateTime value);
-    partial void OnModifiedDateChanged();
-    #endregion
-		
-		public PhotoAlbum()
-		{
-			this._Photos = new EntitySet<Photo>(new Action<Photo>(this.attach_Photos), new Action<Photo>(this.detach_Photos));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AlbumID", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int AlbumID
-		{
-			get
-			{
-				return this._AlbumID;
-			}
-			set
-			{
-				if ((this._AlbumID != value))
-				{
-					this.OnAlbumIDChanging(value);
-					this.SendPropertyChanging();
-					this._AlbumID = value;
-					this.SendPropertyChanged("AlbumID");
-					this.OnAlbumIDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AlbumName", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
-		public string AlbumName
-		{
-			get
-			{
-				return this._AlbumName;
-			}
-			set
-			{
-				if ((this._AlbumName != value))
-				{
-					this.OnAlbumNameChanging(value);
-					this.SendPropertyChanging();
-					this._AlbumName = value;
-					this.SendPropertyChanged("AlbumName");
-					this.OnAlbumNameChanged();
+					this.SendPropertyChanged("IsClosed");
+					this.OnIsClosedChanged();
 				}
 			}
 		}
@@ -4297,19 +4270,6 @@ namespace AlumniManagement.WCF.Entities
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="PhotoAlbum_Photo", Storage="_Photos", ThisKey="AlbumID", OtherKey="AlbumID")]
-		public EntitySet<Photo> Photos
-		{
-			get
-			{
-				return this._Photos;
-			}
-			set
-			{
-				this._Photos.Assign(value);
-			}
-		}
-		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -4328,18 +4288,6 @@ namespace AlumniManagement.WCF.Entities
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
-		}
-		
-		private void attach_Photos(Photo entity)
-		{
-			this.SendPropertyChanging();
-			entity.PhotoAlbum = this;
-		}
-		
-		private void detach_Photos(Photo entity)
-		{
-			this.SendPropertyChanging();
-			entity.PhotoAlbum = null;
 		}
 	}
 	
@@ -4387,7 +4335,7 @@ namespace AlumniManagement.WCF.Entities
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PhotoID", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PhotoID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
 		public int PhotoID
 		{
 			get
@@ -4563,6 +4511,144 @@ namespace AlumniManagement.WCF.Entities
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.PhotoAlbum")]
+	public partial class PhotoAlbum : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _AlbumID;
+		
+		private string _AlbumName;
+		
+		private System.DateTime _ModifiedDate;
+		
+		private EntitySet<Photo> _Photos;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnAlbumIDChanging(int value);
+    partial void OnAlbumIDChanged();
+    partial void OnAlbumNameChanging(string value);
+    partial void OnAlbumNameChanged();
+    partial void OnModifiedDateChanging(System.DateTime value);
+    partial void OnModifiedDateChanged();
+    #endregion
+		
+		public PhotoAlbum()
+		{
+			this._Photos = new EntitySet<Photo>(new Action<Photo>(this.attach_Photos), new Action<Photo>(this.detach_Photos));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AlbumID", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int AlbumID
+		{
+			get
+			{
+				return this._AlbumID;
+			}
+			set
+			{
+				if ((this._AlbumID != value))
+				{
+					this.OnAlbumIDChanging(value);
+					this.SendPropertyChanging();
+					this._AlbumID = value;
+					this.SendPropertyChanged("AlbumID");
+					this.OnAlbumIDChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AlbumName", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string AlbumName
+		{
+			get
+			{
+				return this._AlbumName;
+			}
+			set
+			{
+				if ((this._AlbumName != value))
+				{
+					this.OnAlbumNameChanging(value);
+					this.SendPropertyChanging();
+					this._AlbumName = value;
+					this.SendPropertyChanged("AlbumName");
+					this.OnAlbumNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ModifiedDate", DbType="DateTime NOT NULL")]
+		public System.DateTime ModifiedDate
+		{
+			get
+			{
+				return this._ModifiedDate;
+			}
+			set
+			{
+				if ((this._ModifiedDate != value))
+				{
+					this.OnModifiedDateChanging(value);
+					this.SendPropertyChanging();
+					this._ModifiedDate = value;
+					this.SendPropertyChanged("ModifiedDate");
+					this.OnModifiedDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="PhotoAlbum_Photo", Storage="_Photos", ThisKey="AlbumID", OtherKey="AlbumID")]
+		public EntitySet<Photo> Photos
+		{
+			get
+			{
+				return this._Photos;
+			}
+			set
+			{
+				this._Photos.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Photos(Photo entity)
+		{
+			this.SendPropertyChanging();
+			entity.PhotoAlbum = this;
+		}
+		
+		private void detach_Photos(Photo entity)
+		{
+			this.SendPropertyChanging();
+			entity.PhotoAlbum = null;
 		}
 	}
 }

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 21.125, 15.125" name="AlumniManagement">
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 21.125, 15.5" name="AlumniManagement">
   <DataContextMoniker Name="/AlumniManagementDataContext" />
   <nestedChildShapes>
     <classShape Id="bf8e8d4f-685e-4261-a13d-58d6d18ece52" absoluteBounds="3.75, 5.875, 2, 1.7708968098958326">
@@ -230,29 +230,29 @@
         <classShapeMoniker Id="9631eadd-039c-4e30-8cca-9fdcc66aafda" />
       </nodes>
     </associationConnector>
-    <classShape Id="ce4881c0-fdea-4b6a-a144-143c96d70549" absoluteBounds="6.25, 12.375, 2, 2.5401025390624987">
+    <classShape Id="71c53fcd-7fef-489b-b331-04ff3661d08d" absoluteBounds="6.75, 12.75, 2, 2.5401025390624987">
       <DataClassMoniker Name="/AlumniManagementDataContext/Event" />
       <nestedChildShapes>
-        <elementListCompartment Id="12aa4b91-2e21-493d-8ad6-5a6fcd296f70" absoluteBounds="6.265, 12.835, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="7403afc3-d64d-4eaa-9e2b-371108c6603e" absoluteBounds="6.765, 13.21, 1.9700000000000002, 1.9801025390625" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="cacafb03-f6c5-4cfd-8b0f-a56fc5b398cc" absoluteBounds="0.75, 12.25, 2, 1.3862939453124987">
-      <DataClassMoniker Name="/AlumniManagementDataContext/PhotoAlbum" />
-      <nestedChildShapes>
-        <elementListCompartment Id="10c1f673-705e-44fc-bc2d-feb3d1d226d4" absoluteBounds="0.765, 12.71, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
-      </nestedChildShapes>
-    </classShape>
-    <classShape Id="3864e050-80a6-4d07-8b55-74a309f05d1a" absoluteBounds="3.625, 11.75, 2, 1.9631982421874987">
+    <classShape Id="9e95d148-d235-458e-9484-0112b48847ca" absoluteBounds="3.5, 11.875, 2, 1.9631982421874987">
       <DataClassMoniker Name="/AlumniManagementDataContext/Photo" />
       <nestedChildShapes>
-        <elementListCompartment Id="935b9f1d-6d22-4c2d-9857-9fce4f22855e" absoluteBounds="3.6400000000000006, 12.21, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="656fed43-b082-4b45-80cd-ad68d8a3ad21" absoluteBounds="3.515, 12.335, 1.9700000000000002, 1.4031982421875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(2.75 : 12.9431469726562); (3.625 : 12.9431469726562)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <classShape Id="cf2197e8-ec59-4daa-9292-c02e58a1ae58" absoluteBounds="0.75, 12.25, 2, 1.3862939453124987">
+      <DataClassMoniker Name="/AlumniManagementDataContext/PhotoAlbum" />
+      <nestedChildShapes>
+        <elementListCompartment Id="523e894e-fb60-44da-a3a1-8c64e55f2415" absoluteBounds="0.765, 12.71, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(2.75 : 12.9431469726562); (3.5 : 12.9431469726562)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/AlumniManagementDataContext/PhotoAlbum/PhotoAlbum_Photo" />
       <nodes>
-        <classShapeMoniker Id="cacafb03-f6c5-4cfd-8b0f-a56fc5b398cc" />
-        <classShapeMoniker Id="3864e050-80a6-4d07-8b55-74a309f05d1a" />
+        <classShapeMoniker Id="cf2197e8-ec59-4daa-9292-c02e58a1ae58" />
+        <classShapeMoniker Id="9e95d148-d235-458e-9484-0112b48847ca" />
       </nodes>
     </associationConnector>
   </nestedChildShapes>
