@@ -15,7 +15,6 @@ namespace AlumniManagement.WCF.Services
         [OperationContract]
         IEnumerable<PhotoAlbumDTO> GetPhotoAlbums();
 
-
         [OperationContract]
         IEnumerable<PhotoDTO> GetAllPhotoByAlbumId(int AlbumId);
 
@@ -39,6 +38,9 @@ namespace AlumniManagement.WCF.Services
 
         [OperationContract]
         void DeletePhoto(int albumID, int photoID);
+
+        [OperationContract]
+        void SetThumbnail(int photoId, int albumId);
 
 
     }

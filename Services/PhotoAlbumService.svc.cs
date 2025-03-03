@@ -56,7 +56,11 @@ namespace AlumniManagement.WCF.Services
                             {
                                 AlbumID = reader.GetInt32(reader.GetOrdinal("AlbumID")),
                                 AlbumName = reader.GetString(reader.GetOrdinal("AlbumName")),
-                                ModifiedDate = reader.GetDateTime(reader.GetOrdinal("ModifiedDate"))
+                                ModifiedDate = reader.GetDateTime(reader.GetOrdinal("ModifiedDate")),
+                                ThumbnailPhoto = reader.IsDBNull(reader.GetOrdinal("ThumbnailPhoto"))
+                            ? ""  // Jika NULL, gunakan string kosong
+                            : reader.GetString(reader.GetOrdinal("ThumbnailPhoto"))
+
                             });
                         }
                     }
@@ -90,6 +94,7 @@ namespace AlumniManagement.WCF.Services
             var data = Mapping.Mapper.Map<Photo>(photo);
 
             data.AlbumID = albumID;
+            data.ModifiedDate = DateTime.Now;
 
             _context.Photos.InsertOnSubmit(data);
 
@@ -99,6 +104,8 @@ namespace AlumniManagement.WCF.Services
         public void InsertPhotoAlbum(PhotoAlbumDTO photoAlbum)
         {
             var data = Mapping.Mapper.Map<PhotoAlbum>(photoAlbum);
+
+            data.ModifiedDate = DateTime.Now;
 
             _context.PhotoAlbums.InsertOnSubmit(data);
             _context.SubmitChanges();
@@ -134,5 +141,27 @@ namespace AlumniManagement.WCF.Services
 
             _context.SubmitChanges();
         }
+
+        public void SetThumbnail(int photoId, int albumId)
+        {
+
+            var albumPhotos = _context.Photos.Where(p => p.AlbumID == albumId);
+                
+
+            foreach (var photo in albumPhotos)
+            {
+                photo.IsPhotoAlbumThumbnail = false;
+            }
+
+            _context.SubmitChanges();
+
+            var selectedPhoto = _context.Photos.Where(p => p.AlbumID == albumId)
+                .FirstOrDefault(a=>a.PhotoID == photoId);
+
+            selectedPhoto.IsPhotoAlbumThumbnail = true;
+
+            _context.SubmitChanges();
+        }
+
     }
 }

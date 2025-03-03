@@ -12,5 +12,9 @@ namespace AlumniManagement.WCF.Entities
         public string AlbumName {get; set;}
 
         public System.DateTime ModifiedDate {get; set;}
+
+        public string ThumbnailPhoto { get; set;}
+
+
     }
 }
