@@ -48,6 +48,15 @@ namespace AlumniManagement.WCF
             CreateMap<PhotoDTO, Photo>().ReverseMap();
             CreateMap<EventDTO, Event>().ReverseMap();
 
+            // Login Mapping
+            CreateMap<AspNetRole, AspNetUserDTO.RoleDTO>().ReverseMap();
+            CreateMap<AspNetUser, AspNetUserDTO.UserDTO>().ReverseMap();
+            CreateMap<AspNetPermission, AspNetUserDTO.PermissionDTO>().ReverseMap();
+            CreateMap<AspNetRolePermission, AspNetUserDTO.RolePermissionDTO>().ReverseMap();
+            CreateMap<AspNetUserRole, AspNetUserDTO.UserRoleDTO>().ReverseMap();
+            CreateMap<AspNetUserClaim, AspNetUserDTO.UserClaimDTO>().ReverseMap();
+            CreateMap<AspNetUserLogin, AspNetUserDTO.UserLoginDTO>().ReverseMap();
+
         }
     }
 }
