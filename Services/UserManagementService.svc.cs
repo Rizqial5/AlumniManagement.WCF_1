@@ -254,5 +254,39 @@ namespace AlumniManagement.WCF.Services
             _dataContext.AspNetUserRoles.InsertOnSubmit(userRole);
             _dataContext.SubmitChanges();
         }
+
+        public void InsertRoles(AspNetUserDTO.RoleDTO roleDTO)
+        {
+            var insertData = Mapping.Mapper.Map<AspNetRole>(roleDTO);
+
+            insertData.Id = Guid.NewGuid().ToString().ToUpper();
+
+            _dataContext.AspNetRoles.InsertOnSubmit(insertData);
+            _dataContext.SubmitChanges();
+        }
+
+        public void DeleteRoles(string id)
+        {
+            var existingRole = _dataContext.AspNetRoles.FirstOrDefault(u => u.Id == id);
+
+            if(existingRole != null)
+            {
+                _dataContext.AspNetRoles.DeleteOnSubmit(existingRole);
+                _dataContext.SubmitChanges();
+            }
+            else
+            {
+                throw new Exception("Role not Found");
+            }
+        }
+
+        public AspNetUserDTO.RoleDTO GetRoleById(string id)
+        {
+            var selectedRole = _dataContext.AspNetRoles.FirstOrDefault(r => r.Id == id);
+
+            var result = Mapping.Mapper.Map<AspNetUserDTO.RoleDTO>(selectedRole);
+
+            return result;
+        }
     }
 }

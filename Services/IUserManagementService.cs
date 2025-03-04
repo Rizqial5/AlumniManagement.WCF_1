@@ -49,7 +49,16 @@ namespace AlumniManagement.WCF.Services
 
         [OperationContract]
         IEnumerable<AspNetUserDTO.RoleDTO> GetAllRoles();
-        
+
+        [OperationContract]
+        void InsertRoles(AspNetUserDTO.RoleDTO roleDTO);
+
+        [OperationContract]
+        void DeleteRoles(string id);
+
+        [OperationContract]
+        AspNetUserDTO.RoleDTO GetRoleById(string id);
+
 
 
 
