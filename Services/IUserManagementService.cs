@@ -44,6 +44,13 @@ namespace AlumniManagement.WCF.Services
         [OperationContract]
         void UpdateUserFullName(string id, string fullName);
 
+        [OperationContract]
+        void UpdateUserRoles(string id, string newRoles);
+
+        [OperationContract]
+        IEnumerable<AspNetUserDTO.RoleDTO> GetAllRoles();
+        
+
 
 
     }

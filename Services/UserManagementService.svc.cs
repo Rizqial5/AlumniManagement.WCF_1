@@ -7,6 +7,7 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
 using System.Transactions;
+using System.Web.Security;
 
 namespace AlumniManagement.WCF.Services
 {
@@ -24,7 +25,19 @@ namespace AlumniManagement.WCF.Services
 
         public void DeleteUser(string id)
         {
-            throw new NotImplementedException();
+            var existingData = _dataContext.AspNetUsers.FirstOrDefault(x => x.Id == id);
+
+            if(existingData != null)
+            {
+                _dataContext.AspNetUsers.DeleteOnSubmit(existingData);
+
+                _dataContext.SubmitChanges();
+            }
+            else
+            {
+                throw new Exception("User is Not Found");
+            }
+ 
         }
 
         public IEnumerable<AspNetUserDTO.UserDTO> GetAllUsers()
@@ -107,7 +120,7 @@ namespace AlumniManagement.WCF.Services
 
         public bool IsSuperAdminExists()
         {
-            t var user = _dataContext.AspNetUsers.Where(u => u.AspNetUserRoles.Any(ur => ur.AspNetRole.Name == "Superadmin")).FirstOrDefault();
+            var user = _dataContext.AspNetUsers.Where(u => u.AspNetUserRoles.Any(ur => ur.AspNetRole.Name == "Superadmin")).FirstOrDefault();
             if (user != null)
             {
                 return true;
@@ -192,6 +205,7 @@ namespace AlumniManagement.WCF.Services
                     _dataContext.Refresh(RefreshMode.OverwriteCurrentValues, existingUser);
 
                     existingUser.FullName = fullName;
+
                     _dataContext.SubmitChanges();
                 }
                 transaction.Complete();
@@ -214,6 +228,31 @@ namespace AlumniManagement.WCF.Services
                 _dataContext.AspNetUserRoles.InsertOnSubmit(userRole);
                 _dataContext.SubmitChanges();
             }
+        }
+
+        public IEnumerable<AspNetUserDTO.RoleDTO> GetAllRoles()
+        {
+            var data = _dataContext.AspNetRoles.ToList();
+
+            var result = Mapping.Mapper.Map<List<AspNetUserDTO.RoleDTO>>(data);
+
+            return result;
+        }
+
+        public void UpdateUserRoles(string id, string newRoles)
+        {
+            var existingRoles = _dataContext.AspNetUsers.FirstOrDefault(u => u.Id == id);
+
+            if(existingRoles.AspNetUserRoles.Select(u => u.RoleId).Contains(newRoles)) return ;
+
+            var userRole = new AspNetUserRole
+            {
+                UserId = id,
+                RoleId = newRoles
+            };
+
+            _dataContext.AspNetUserRoles.InsertOnSubmit(userRole);
+            _dataContext.SubmitChanges();
         }
     }
 }
