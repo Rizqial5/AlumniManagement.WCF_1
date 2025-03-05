@@ -28,7 +28,7 @@ namespace AlumniManagement.WCF.Services
         void InsertPhotoAlbum(PhotoAlbumDTO photoAlbum);
 
         [OperationContract]
-        void InsertPhoto(PhotoDTO photo, int albumID);
+        void InsertPhoto(List<PhotoDTO> photo, int albumID);
 
         [OperationContract]
         void UpdatePhotoAlbum(PhotoAlbumDTO photoAlbum);

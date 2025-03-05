@@ -89,14 +89,19 @@ namespace AlumniManagement.WCF.Services
              
         }
 
-        public void InsertPhoto(PhotoDTO photo, int albumID)
+        public void InsertPhoto(List<PhotoDTO> photo, int albumID)
         {
-            var data = Mapping.Mapper.Map<Photo>(photo);
+            var data = Mapping.Mapper.Map<List<Photo>>(photo);
 
-            data.AlbumID = albumID;
-            data.ModifiedDate = DateTime.Now;
 
-            _context.Photos.InsertOnSubmit(data);
+            foreach (var item in data)
+            {
+                item.AlbumID = albumID;
+                item.ModifiedDate = DateTime.Now;
+            }
+
+
+            _context.Photos.InsertAllOnSubmit(data);
 
             _context.SubmitChanges();
         }
